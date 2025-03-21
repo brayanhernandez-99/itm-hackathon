@@ -2,11 +2,17 @@
 /target/
 /out/
 build/
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 # Archivos de dependencias (para Maven y Gradle)
 .mvn/
@@ -16,11 +22,13 @@ target/
 **/pom.xml.asc
 **/pom.xml.next
 **/pom.xml.backup
-**/pom.xml.releaseBackup
 **/pom.xml.versionsBackup
-**/pom.xml.releaseBackup
 **/target/
-
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
 # Archivos generados por Spring Boot
 BOOT-INF/
@@ -50,29 +58,17 @@ hs_err_pid*
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+### IntelliJ IDEA - NetBeans - VSCode###
 .idea
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+.vscode/
 
 # Archivos de base de datos en memoria (H2)
 /*.h2.db
 /*.mv.db
 /*.trace.db
-
-### VS Code ###
-.vscode/
 
 # Archivos de prueba y cobertura de código
 /test-output/
@@ -85,10 +81,3 @@ jacoco/
 # Archivos de sistema
 .DS_Store
 Thumbs.db
-
-# Archivos de configuración de IDEs
-.idea/
-*.iml
-*.ipr
-*.iws
-.vscode/
