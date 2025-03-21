@@ -1,0 +1,94 @@
+# Directorios de compilación
+/target/
+/out/
+build/
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Archivos de dependencias (para Maven y Gradle)
+.mvn/
+.gradle/
+**/pom.xml.tag
+**/pom.xml.releaseBackup
+**/pom.xml.asc
+**/pom.xml.next
+**/pom.xml.backup
+**/pom.xml.releaseBackup
+**/pom.xml.versionsBackup
+**/pom.xml.releaseBackup
+**/target/
+
+
+# Archivos generados por Spring Boot
+BOOT-INF/
+META-INF/
+*.jar
+*.war
+*.ear
+
+# Configuraciones temporales
+.env
+*.swp
+*.swo
+*.swn
+
+# Archivos de logs y reportes
+*.log
+logs/
+*.log.*
+hs_err_pid*
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Archivos de base de datos en memoria (H2)
+/*.h2.db
+/*.mv.db
+/*.trace.db
+
+### VS Code ###
+.vscode/
+
+# Archivos de prueba y cobertura de código
+/test-output/
+coverage/
+jacoco/
+*.exec
+*.ec
+*.class
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
