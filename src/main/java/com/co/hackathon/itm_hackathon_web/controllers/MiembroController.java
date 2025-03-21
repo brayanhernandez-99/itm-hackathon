@@ -22,7 +22,7 @@ public class MiembroController {
     public String listarMiembros(Model model) {
         List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
         model.addAttribute("miembros", miembros);
-        return "miembros/lista";
+        return "miembros/listado";
     }
 
     @GetMapping("/nuevo")
