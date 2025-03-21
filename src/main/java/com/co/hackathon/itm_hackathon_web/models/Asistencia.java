@@ -25,7 +25,7 @@ public class Asistencia {
     private Evento evento;
 
     @Column(nullable = false)
-    private Boolean asistenciaMoto;
+    private Boolean asistencia_moto;
 
     @Column(nullable = false)
     private Integer kilometraje;

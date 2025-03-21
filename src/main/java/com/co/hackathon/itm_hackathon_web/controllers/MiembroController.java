@@ -1,54 +1,58 @@
 package com.co.hackathon.itm_hackathon_web.controllers;
 
 import com.co.hackathon.itm_hackathon_web.models.Miembro;
-import com.co.hackathon.itm_hackathon_web.repositories.MiembroRepository;
-import jakarta.validation.Valid;
+import com.co.hackathon.itm_hackathon_web.services.MiembroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/miembros")
 public class MiembroController {
 
-    private final MiembroRepository miembroRepository;
+    private final MiembroService miembroService;
 
-    public MiembroController(MiembroRepository miembroRepository) {
-        this.miembroRepository = miembroRepository;
+    public MiembroController(MiembroService miembroService) {
+        this.miembroService = miembroService;
     }
 
-    // 📌 Método para mostrar todos los miembros en la vista HTML
     @GetMapping
     public String listarMiembros(Model model) {
-        model.addAttribute("miembros", miembroRepository.findAll());
-        return "miembros/lista"; // Renderiza el archivo lista.html
+        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
+        model.addAttribute("miembros", miembros);
+        return "miembros/lista";
     }
 
-    // 📌 Método para mostrar el formulario de nuevo miembro
     @GetMapping("/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
+    public String mostrarFormularioNuevoMiembro(Model model) {
         model.addAttribute("miembro", new Miembro());
         return "miembros/formulario";
     }
 
-    // 📌 Método para guardar un nuevo miembro
     @PostMapping
-    public String guardarMiembro(@Valid @ModelAttribute Miembro miembro) {
-        miembroRepository.save(miembro);
-        return "redirect:/miembros"; // Redirige a la lista después de guardar
+    public String guardarMiembro(@ModelAttribute Miembro miembro) {
+        miembroService.guardarMiembro(miembro);
+        return "redirect:/miembros";
     }
 
-    // 📌 Método para mostrar el formulario de edición
     @GetMapping("/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable Integer id, Model model) {
-        model.addAttribute("miembro", miembroRepository.findById(id).orElse(null));
+    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
+        Miembro miembro = miembroService.obtenerMiembroPorId(id);
+        model.addAttribute("miembro", miembro);
         return "miembros/formulario";
     }
 
-    // 📌 Método para eliminar un miembro
+    @PostMapping("/actualizar/{id}")
+    public String actualizarMiembro(@PathVariable int id, @ModelAttribute Miembro miembro) {
+        miembroService.actualizarMiembro(id, miembro);
+        return "redirect:/miembros";
+    }
+
     @GetMapping("/eliminar/{id}")
-    public String eliminarMiembro(@PathVariable Integer id) {
-        miembroRepository.deleteById(id);
+    public String eliminarMiembro(@PathVariable int id) {
+        miembroService.eliminarMiembro(id);
         return "redirect:/miembros";
     }
 }

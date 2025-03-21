@@ -20,5 +20,5 @@ public class Acompanante {
     private String nombre;
 
     @Column(length = 255)
-    private String otrosDatos;
+    private String otros_datos;
 }

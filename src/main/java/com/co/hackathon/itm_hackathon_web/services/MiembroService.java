@@ -15,19 +15,26 @@ public class MiembroService {
         this.miembroRepository = miembroRepository;
     }
 
-    public List<Miembro> listarTodos() {
+    public List<Miembro> obtenerTodosLosMiembros() {
         return miembroRepository.findAll();
     }
 
-    public void guardar(Miembro miembro) {
-        miembroRepository.save(miembro);
-    }
-
-    public Miembro buscarPorId(Integer id) {
+    public Miembro obtenerMiembroPorId(int id) {
         return miembroRepository.findById(id).orElse(null);
     }
 
-    public void eliminar(Integer id) {
+    public void guardarMiembro(Miembro miembro) {
+        miembroRepository.save(miembro);
+    }
+
+    public void actualizarMiembro(int id, Miembro miembro) {
+        if (miembroRepository.existsById(id)) {
+            miembro.setId(id);
+            miembroRepository.save(miembro);
+        }
+    }
+
+    public void eliminarMiembro(int id) {
         miembroRepository.deleteById(id);
     }
 }

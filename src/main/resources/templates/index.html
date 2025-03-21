@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<section>
-    <h2>Bienvenido a la Gestión de Miembros y Eventos</h2>
+<header>
+    <section>
+        <h1>L.A.M.A Medellin</h1>
+        <h2>Bienvenido a la Gestión de Miembros y Eventos</h2>
+    </section>
+</header>
+<section th:fragment="contenido">
     <p>Seleccione una opción en el menú.</p>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Inicio</a></li>
+            <li><a th:href="@{/miembros}">Miembros</a></li>
+            <li><a th:href="@{/eventos}">Eventos</a></li>
+        </ul>
+    </nav>
 </section>
+<main>
+    <!-- Aquí se insertará el contenido dinámico -->
+    <section th:replace="~{contenido :: content}"></section>
+</main>
+<footer>
+    <p>© 2025 Hackathon ITM</p>
+</footer>
 </body>
 </html>

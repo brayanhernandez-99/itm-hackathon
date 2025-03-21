@@ -23,8 +23,8 @@ public class Miembro {
     private String tipo;
 
     @Column(length = 255)
-    private String otrosDatos;
+    private String otros_datos;
 
     @OneToMany(mappedBy = "organizador")
-    private List<Evento> eventosOrganizados;
+    private List<Evento> eventos_organizados;
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Miembro</title>
+</head>
+<body>
+<h1>Formulario de Miembro</h1>
+<form th:action="@{/miembros}" th:object="${miembro}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required />
+
+    <label>Tipo:</label>
+    <input type="text" th:field="*{tipo}" required />
+
+    <button type="submit">Guardar</button>
+</form>
+<a href="/miembros">Volver a la lista</a>
+</body>
+</html>
