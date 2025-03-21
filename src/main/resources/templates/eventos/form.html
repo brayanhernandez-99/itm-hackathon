@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Miembro</title>
+</head>
+<body>
+<section>
+    <h2>Formulario de Miembro</h2>
+    <form th:action="@{/miembros/guardar}" method="post" th:object="${miembro}">
+        <input type="hidden" th:field="*{id}">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" required>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" th:field="*{tipo}">
+            <option value="Full Color Member">Full Color Member</option>
+            <option value="Prospect">Prospect</option>
+            <option value="DAMA">DAMA</option>
+        </select>
+
+        <label for="otrosDatos">Otros Datos:</label>
+        <input type="text" id="otrosDatos" th:field="*{otrosDatos}">
+
+        <button type="submit">Guardar</button>
+    </form>
+</section>
+</body>
+</html>
