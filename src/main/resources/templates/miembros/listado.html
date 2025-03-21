@@ -9,7 +9,8 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
+        <th>Id</th>
+        <th>Rol</th>
         <th>Nombre</th>
         <th>Tipo</th>
         <th>Acciones</th>
@@ -18,6 +19,7 @@
     <tbody>
     <tr th:each="miembro : ${miembros}">
         <td th:text="${miembro.id}"></td>
+        <td th:text="${miembro.rol}"></td>
         <td th:text="${miembro.nombre}"></td>
         <td th:text="${miembro.tipo}"></td>
         <td>

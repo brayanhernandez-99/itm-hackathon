@@ -7,12 +7,21 @@
 <h1>Formulario Nuevo Miembro</h1>
 <form th:action="@{/miembros}" th:object="${miembro}" method="post">
     <input type="hidden" th:field="*{id}"/>
+    <label>Rol:</label>
+    <div>
+        <input type="radio" th:field="*{rol}" value="ADMIN" id="tipoAdmin" required/>
+        <label for="tipoAdmin">Admin</label>
+        <input type="radio" th:field="*{rol}" value="USER" id="tipoUser" required/>
+        <label for="tipoUser">User</label>
+        <input type="radio" th:field="*{rol}" value="GUEST" id="tipoGuest" required/>
+        <label for="tipoGuest">Guest</label>
+    </div>
     <label>Nombre:</label>
     <input type="text" th:field="*{nombre}" required/>
     <label>Tipo:</label>
     <div>
-        <input type="radio" th:field="*{tipo}" value="Admin" id="tipoAdmin" required/>
-        <label for="tipoAdmin">Admin</label>
+        <input type="radio" th:field="*{tipo}" value="President" id="tipoPresident" required/>
+        <label for="tipoPresident">President</label>
         <input type="radio" th:field="*{tipo}" value="Member" id="tipoMember" required/>
         <label for="tipoMember">Member</label>
         <input type="radio" th:field="*{tipo}" value="Prospect" id="tipoProspect" required/>

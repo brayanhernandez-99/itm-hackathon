@@ -25,6 +25,10 @@ public class Miembro {
     @Column(length = 255)
     private String otros_datos;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Rol rol;
+
     @OneToMany(mappedBy = "organizador")
     private List<Evento> eventos_organizados;
 }
