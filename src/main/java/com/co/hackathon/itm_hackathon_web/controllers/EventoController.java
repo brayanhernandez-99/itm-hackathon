@@ -1,5 +1,6 @@
 package com.co.hackathon.itm_hackathon_web.controllers;
 
+import com.co.hackathon.itm_hackathon_web.models.Asistencia;
 import com.co.hackathon.itm_hackathon_web.models.Evento;
 import com.co.hackathon.itm_hackathon_web.models.Miembro;
 import com.co.hackathon.itm_hackathon_web.services.EventoService;
@@ -25,8 +26,11 @@ public class EventoController {
     @GetMapping
     public String listarEventos(Model model) {
         List<Evento> eventos = eventoService.obtenerTodosLosEventos();
+        if (eventos == null || eventos.isEmpty()){
+            throw new RuntimeException("No hay eventos registrados");
+        }
         model.addAttribute("eventos", eventos);
-        return "eventos/listado";  // Vista de listado de eventos
+        return "eventos/listado.html";  // Vista de listado.html de eventos
     }
 
     @GetMapping("/nuevo")

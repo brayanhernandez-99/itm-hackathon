@@ -21,8 +21,11 @@ public class MiembroController {
     @GetMapping
     public String listarMiembros(Model model) {
         List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
+        if (miembros == null || miembros.isEmpty()){
+            throw new RuntimeException("No hay miembros registrados");
+        }
         model.addAttribute("miembros", miembros);
-        return "miembros/listado";
+        return "miembros/listado.html";
     }
 
     @GetMapping("/nuevo")

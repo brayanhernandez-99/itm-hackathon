@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Asistencias</title>
+</head>
+<body>
+<h1>Asistencias para Todos los Eventos</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Evento</th>
+        <th>Miembro</th>
+        <th>Asistió en Moto</th>
+        <th>Kilometraje</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="asistencia : ${asistencias}">
+        <td th:text="${asistencia.evento.descripcion}"></td>
+        <td th:text="${asistencia.miembro.nombre}"></td>
+        <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
+        <td th:text="${asistencia.kilometraje}"></td>
+        <td>
+            <a th:href="@{/asistencias/eliminar/{id}/{eventoId}(id=${asistencia.id}, eventoId=${asistencia.evento.id})}">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/eventos">Volver a Eventos</a>
+</body>
+</html>

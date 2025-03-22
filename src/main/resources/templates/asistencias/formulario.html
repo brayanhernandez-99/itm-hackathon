@@ -1,0 +1,27 @@
+<!-- Formulario para registrar asistencia -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>L.A.M.A Medellin</title>
+</head>
+<body>
+<h1>Registrar Asistencia para el evento: <span th:text="${evento.descripcion}"></span></h1>
+
+<form th:action="@{/asistencias/registrar}" th:object="${asistencia}" method="post">
+  <input type="hidden" th:field="*{evento.id}" />
+  <label for="miembro">Miembro:</label>
+  <select id="miembro" th:field="*{miembro.id}">
+    <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
+  </select>
+  <br/>
+  <label for="asistencia_moto">Asistio en Moto:</label>
+  <input type="checkbox" id="asistencia_moto" th:field="*{asistencia_moto}" />
+  <br/>
+  <label for="kilometraje">Kilometraje:</label>
+  <input type="number" id="kilometraje" th:field="*{kilometraje}" required />
+  <br/>
+  <button type="submit">Guardar</button>
+</form>
+<a th:href="@{/asistencias/evento/{eventoId}(eventoId=${evento.id})}">Volver al listado</a>
+</body>
+</html>
