@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>L.A.M.A Medellin</title>
+</head>
+<body>
+<h1>Formulario Evento</h1>
+<form th:action="@{/eventos/guardar}" th:object="${evento}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label>Fecha:</label>
+    <input type="date" th:field="*{fecha}" required/>
+    <label>Descripción:</label>
+    <input type="text" th:field="*{descripcion}" required/>
+    <label>Organizador:</label>
+    <select th:field="*{organizador.id}" required>
+        <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
+    </select>
+    <label>Tipo:</label>
+    <select th:field="*{tipo}" required>
+        <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoEvento).values()}"
+                th:value="${tipo}" th:text="${tipo}"></option>
+    </select>
+    <button type="submit">Guardar</button>
+</form>
+<a href="/eventos">Volver a la lista</a>
+</body>
+</html>

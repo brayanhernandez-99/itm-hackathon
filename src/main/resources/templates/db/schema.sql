@@ -9,7 +9,7 @@ CREATE TABLE Miembros (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
-    otros_datos VARCHAR(255),
+    informacion VARCHAR(255),
     rol ENUM('ADMIN', 'USER', 'GUEST') NOT NULL
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE Asistencia (
 CREATE TABLE Acompanantes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
-    otros_datos VARCHAR(255)
+    descripcion VARCHAR(255)
 );
 
 CREATE TABLE Asistencia_Acompanantes (

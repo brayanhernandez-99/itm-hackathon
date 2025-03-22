@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>L.A.M.A Medellin</title>
+</head>
+<body>
+<h1>Lista de Eventos</h1>
+<a href="/eventos/nuevo">Añadir Evento</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Fecha</th>
+        <th>Descripción</th>
+        <th>Organizador</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="evento : ${eventos}">
+        <td th:text="${evento.id}"></td>
+        <td th:text="${evento.fecha}"></td>
+        <td th:text="${evento.descripcion}"></td>
+        <td th:text="${evento.organizador.nombre}"></td>
+        <td th:text="${evento.tipo}"></td>
+        <td>
+            <a th:href="@{/eventos/editar/{id}(id=${evento.id})}">Editar</a>
+            <a th:href="@{/eventos/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

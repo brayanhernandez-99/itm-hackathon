@@ -19,11 +19,12 @@ public class Miembro {
     @Column(nullable = false, length = 255)
     private String nombre;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String tipo;
+    private TipoMiembro tipo;  // Usando el Enum TipoMiembro
 
     @Column(length = 255)
-    private String otros_datos;
+    private String descripcion;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

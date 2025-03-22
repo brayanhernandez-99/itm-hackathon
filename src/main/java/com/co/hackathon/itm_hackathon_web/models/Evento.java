@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
@@ -12,7 +13,6 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class Evento {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,6 +27,7 @@ public class Evento {
     @JoinColumn(name = "organizador_id", nullable = false)
     private Miembro organizador;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String tipo;
+    private TipoEvento tipo;  // Enum de tipo de evento
 }

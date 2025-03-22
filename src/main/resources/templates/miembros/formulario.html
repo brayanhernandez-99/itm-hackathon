@@ -4,31 +4,22 @@
     <title>L.A.M.A Medellin</title>
 </head>
 <body>
-<h1>Formulario Nuevo Miembro</h1>
+<h1>Formulario Miembro</h1>
 <form th:action="@{/miembros}" th:object="${miembro}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <label>Rol:</label>
-    <div>
-        <input type="radio" th:field="*{rol}" value="ADMIN" id="tipoAdmin" required/>
-        <label for="tipoAdmin">Admin</label>
-        <input type="radio" th:field="*{rol}" value="USER" id="tipoUser" required/>
-        <label for="tipoUser">User</label>
-        <input type="radio" th:field="*{rol}" value="GUEST" id="tipoGuest" required/>
-        <label for="tipoGuest">Guest</label>
-    </div>
+    <select th:field="*{rol}" required>
+        <option value="ADMIN">ADMIN</option>
+        <option value="USER">USER</option>
+        <option value="GUEST">GUEST</option>
+    </select>
     <label>Nombre:</label>
     <input type="text" th:field="*{nombre}" required/>
     <label>Tipo:</label>
-    <div>
-        <input type="radio" th:field="*{tipo}" value="President" id="tipoPresident" required/>
-        <label for="tipoPresident">President</label>
-        <input type="radio" th:field="*{tipo}" value="Member" id="tipoMember" required/>
-        <label for="tipoMember">Member</label>
-        <input type="radio" th:field="*{tipo}" value="Prospect" id="tipoProspect" required/>
-        <label for="tipoProspect">Prospect</label>
-        <input type="radio" th:field="*{tipo}" value="Dama" id="tipoDama" required/>
-        <label for="tipoDama">Dama</label>
-    </div>
+    <select th:field="*{tipo}" required>
+        <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoMiembro).values()}"
+                th:value="${tipo}" th:text="${tipo}"></option>
+    </select>
     <button type="submit">Guardar</button>
 </form>
 <a href="/miembros">Volver a la lista</a>
