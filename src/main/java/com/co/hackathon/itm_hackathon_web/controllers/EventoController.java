@@ -54,7 +54,12 @@ public class EventoController {
 
     @PostMapping("/actualizar/{id}")
     public String actualizarEvento(@PathVariable int id, @ModelAttribute Evento evento) {
-        eventoService.actualizarEvento(id, evento);
+        Evento eventoExistente = eventoService.obtenerEventoPorId(id);
+        Miembro organizador = miembroService.obtenerMiembroPorId(evento.getOrganizador().getId());
+        evento.setOrganizador(organizador);
+
+        evento.setId(id);
+        eventoService.guardarEvento(evento);
         return "redirect:/eventos";
     }
 

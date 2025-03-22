@@ -5,12 +5,12 @@
 </head>
 <body>
 <h1>Formulario Evento</h1>
-<form th:action="@{/eventos/guardar}" th:object="${evento}" method="post">
+<form th:action="@{/eventos}" th:object="${evento}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <label>Fecha:</label>
     <input type="date" th:field="*{fecha}" required/>
-    <label>Descripción:</label>
-    <input type="text" th:field="*{descripcion}" required/>
+    <label>Descripcion:</label>
+    <textarea th:field="*{descripcion}" rows="5" cols="40" required></textarea>
     <label>Organizador:</label>
     <select th:field="*{organizador.id}" required>
         <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>

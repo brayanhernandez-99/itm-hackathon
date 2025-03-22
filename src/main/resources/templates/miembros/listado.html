@@ -13,6 +13,7 @@
         <th>Rol</th>
         <th>Nombre</th>
         <th>Tipo</th>
+        <th>Descripcion</th>
         <th>Acciones</th>
     </tr>
     </thead>
@@ -22,6 +23,7 @@
         <td th:text="${miembro.rol}"></td>
         <td th:text="${miembro.nombre}"></td>
         <td th:text="${miembro.tipo}"></td>
+        <td th:text="${miembro.descripcion}"></td> <!-- Mostrar la descripción aquí -->
         <td>
             <a th:href="@{/miembros/editar/{id}(id=${miembro.id})}">Editar</a>
             <a th:href="@{/miembros/eliminar/{id}(id=${miembro.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
