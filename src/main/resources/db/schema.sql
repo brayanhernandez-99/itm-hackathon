@@ -12,14 +12,15 @@ CREATE TABLE TipoEvento (
     nombre VARCHAR(50) PRIMARY KEY
 );
 
-INSERT INTO TipoEvento (nombre) VALUES ('Asamblea'), ('Rodada'), ('Sancionado'), ('Cena'), ('Otro');
+INSERT INTO TipoEvento (nombre) VALUES ('Asamblea'), ('Rodada'), ('Sancionado'), ('Cena'), ('Fiesta'), ('Competencia'), ('Viaje');
+
 
 -- Tabla de Tipos de Miembro (Enum convertido en tabla)
 CREATE TABLE TipoMiembro (
     nombre VARCHAR(50) PRIMARY KEY
 );
 
-INSERT INTO TipoMiembro (nombre) VALUES ('President'), ('Member'), ('Prospect'), ('Dama');
+INSERT INTO TipoMiembro (nombre) VALUES ('President'), ('VIP'), ('Member'), ('Prospect'), ('Dama'), ('Tesorero');
 
 -- Tabla Miembros
 CREATE TABLE Miembros (

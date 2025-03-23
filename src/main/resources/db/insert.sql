@@ -1,13 +1,13 @@
 
 -- Insertar en miembros - eventos - asistencia - acompañantes - asistencia_acompañantes
 
-USE itm;
-
-INSERT INTO TipoEvento (nombre) VALUES
+TipoEvento:
 ('Asamblea'), ('Rodada'), ('Sancionado'), ('Cena'), ('Fiesta'), ('Competencia'), ('Viaje');
 
-INSERT INTO TipoMiembro (nombre) VALUES
+TipoMiembro:
 ('President'), ('VIP'), ('Member'), ('Prospect'), ('Dama'), ('Tesorero');
+
+USE itm;
 
 INSERT INTO Miembros (nombre, tipo, descripcion) VALUES
 ('Juan Pérez', 'President', 'Líder del club'),
