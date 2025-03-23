@@ -1,66 +1,40 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #333;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
+.sidebar h2 {
     text-align: center;
 }
 
-nav ul {
+.sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 15px;
+.sidebar ul li {
+    padding: 10px;
 }
 
-nav ul li a {
+.sidebar ul li a {
     color: white;
     text-decoration: none;
+    display: block;
 }
 
-section {
+.sidebar ul li a:hover {
+    background: #555;
+}
+
+/* Contenido principal */
+.content {
+    margin-left: 260px;
     padding: 20px;
-    background: white;
-    margin: 20px auto;
-    width: 80%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #ccc;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background-color: #555;
-    color: white;
-}
-
-button, input[type="submit"] {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-button:hover, input[type="submit"]:hover {
-    background-color: #218838;
 }

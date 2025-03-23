@@ -2,33 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Listado de Asistencia</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Evento</th>
-        <th>Miembro</th>
-        <th>Asistio en Moto</th>
-        <th>Kilometraje</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="asistencia : ${asistencias}">
-        <td th:text="${asistencia.evento.id}"></td>
-        <td th:text="${asistencia.evento.descripcion}"></td>
-        <td th:text="${asistencia.miembro.nombre}"></td>
-        <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
-        <td th:text="${asistencia.kilometraje}"></td>
-        <td>
-            <a th:href="@{/asistencias/eliminar/{id}/{eventoId}(id=${asistencia.id}, eventoId=${asistencia.evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<a th:href="@{/eventos}">Volver a Eventos</a>
+<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <h1>Listado de Asistencia</h1>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Evento</th>
+            <th>Miembro</th>
+            <th>Asistio en Moto</th>
+            <th>Kilometraje</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asistencia : ${asistencias}">
+            <td th:text="${asistencia.evento.id}"></td>
+            <td th:text="${asistencia.evento.descripcion}"></td>
+            <td th:text="${asistencia.miembro.nombre}"></td>
+            <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
+            <td th:text="${asistencia.kilometraje}"></td>
+            <td>
+                <a th:href="@{/asistencias/evento/{eventoId}(eventoId=${asistencia.evento.id})}"
+                   th:if="${ocultarVer != true}">Ver</a>
+                <a th:href="@{/asistencias/eliminar/{id}/{eventoId}(id=${asistencia.id}, eventoId=${asistencia.evento.id})}"
+                   onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/eventos}">Volver a Eventos</a>
+</div>
 </body>
 </html>

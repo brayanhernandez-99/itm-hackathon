@@ -45,6 +45,7 @@ public class AsistenciaController {
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorEvento(eventoId);
         model.addAttribute("evento", evento);
         model.addAttribute("asistencias", asistencias);
+        model.addAttribute("ocultarVer", true);
         return "asistencias/listado";
     }
 

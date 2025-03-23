@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L.A.M.A Medellin</title>
+    <title>L.A.M.A Medellín</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<header>
-    <section>
-        <h1>L.A.M.A Medellin</h1>
-        <h2>Bienvenido a la Gestión de Miembros y Eventos</h2>
-    </section>
-</header>
-<section th:fragment="contenido">
-    <p>Seleccione una opción en el menú.</p>
-    <nav>
-        <ul>
-            <li><a th:href="@{/}">Inicio</a></li>
-            <li><a th:href="@{/miembros}">Miembros</a></li>
-            <li><a th:href="@{/eventos}">Eventos</a></li>
-        </ul>
-    </nav>
-</section>
-<main>
-    <!-- Aquí se insertará el contenido dinámico -->
-    <section th:replace="~{contenido :: content}"></section>
-</main>
-<footer>
-    <p>© 2025 Hackathon ITM</p>
-</footer>
+<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <header>
+        <h1>L.A.M.A Medellín</h1>
+        <h2>Gestión de Miembros y Eventos</h2>
+    </header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Inicio</a></li>
+                <li><a th:href="@{/miembros}">Miembros</a></li>
+                <li><a th:href="@{/eventos}">Eventos</a></li>
+                <li><a th:href="@{/asistencias}">Asistencias</a></li>
+            </ul>
+        </nav>
+        <!-- Contenido principal -->
+        <main class="container">
+            <section>
+                <p>Seleccione una opción en el menú para gestionar la información.</p>
+            </section>
+        </main>
+    </div>
+    <footer>
+        <p>© 2025 Hackathon ITM - Todos los derechos reservados</p>
+    </footer>
+</div>
 </body>
 </html>
