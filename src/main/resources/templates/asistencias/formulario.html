@@ -5,11 +5,13 @@
   <title>L.A.M.A Medellin</title>
 </head>
 <body>
-<h1>Registrar Asistencia para el evento: <span th:text="${evento.descripcion}"></span></h1>
-
+<h1>Registrar Asistencia</h1>
 <form th:action="@{/asistencias/registrar}" th:object="${asistencia}" method="post">
-  <input type="hidden" th:field="*{evento.id}" />
-  <label for="miembro">Miembro:</label>
+  <label for="eventoId">Id:</label>
+  <input type="text" id="eventoId" th:value="${evento.id}" disabled />
+  <label for="eventoDescripcion">Evento:</label>
+  <input type="text" id="eventoDescripcion" th:value="${evento.descripcion}" disabled />
+    <label for="miembro">Miembro:</label>
   <select id="miembro" th:field="*{miembro.id}">
     <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
   </select>
@@ -22,6 +24,6 @@
   <br/>
   <button type="submit">Guardar</button>
 </form>
-<a th:href="@{/asistencias/evento/{eventoId}(eventoId=${evento.id})}">Volver al listado</a>
+<a th:href="@{/asistencias/evento/{eventoId}(eventoId=${evento.id})}">Volver al Eventos</a>
 </body>
 </html>

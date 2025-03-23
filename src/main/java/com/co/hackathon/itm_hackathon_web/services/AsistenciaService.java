@@ -5,7 +5,6 @@ import com.co.hackathon.itm_hackathon_web.repositories.AsistenciaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AsistenciaService {
@@ -37,10 +36,12 @@ public class AsistenciaService {
     }
 
     // 🔹 Eliminar una asistencia con validación
-    public void eliminarAsistencia(int id) {
+    public boolean eliminarAsistencia(int id) {
         if (asistenciaRepository.existsById(id)) {
             asistenciaRepository.deleteById(id);
+            return true;
         }
+        return false;
     }
 
     // 🔹 Validar si una asistencia existe antes de eliminar

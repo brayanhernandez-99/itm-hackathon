@@ -4,8 +4,9 @@
     <title>L.A.M.A Medellin</title>
 </head>
 <body>
-<h1>Lista de Eventos</h1>
-<a href="/eventos/nuevo">Añadir Evento</a>
+<h1>Listado de Eventos</h1>
+<a th:href="@{/eventos/nuevo}">Añadir Evento</a>
+<a th:href="@{/asistencias}">Ver Asistencias</a>
 <table border="1">
     <thead>
     <tr>
@@ -26,6 +27,7 @@
         <td th:text="${evento.tipo}"></td>
         <td>
             <a th:href="@{/eventos/editar/{id}(id=${evento.id})}">Editar</a>
+            <a th:href="@{/asistencias/registrar/{eventoId}(eventoId=${evento.id})}">Asistencia</a>
             <a th:href="@{/eventos/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
         </td>
     </tr>

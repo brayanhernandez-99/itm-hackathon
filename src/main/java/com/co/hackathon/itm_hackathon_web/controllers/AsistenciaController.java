@@ -77,8 +77,8 @@ public class AsistenciaController {
     // 🔹 Eliminar asistencia con validación
     @GetMapping("/eliminar/{id}/{eventoId}")
     public String eliminarAsistencia(@PathVariable int id, @PathVariable int eventoId) {
-        if (asistenciaService.existeAsistencia(id)) {
-            asistenciaService.eliminarAsistencia(id);
+        if (!asistenciaService.eliminarAsistencia(id)) {
+            throw new RuntimeException("No se pudo eliminar asistencia");
         }
         return "redirect:/asistencias/evento/" + eventoId;
     }
