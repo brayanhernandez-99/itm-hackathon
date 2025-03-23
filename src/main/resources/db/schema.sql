@@ -1,30 +1,21 @@
--- Crear usuario y base de datos
+-- Crear base de datos y usuario
+CREATE DATABASE IF NOT EXISTS itm;
 CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
-CREATE DATABASE itm;
 GRANT ALL PRIVILEGES ON itm.* TO 'springuser'@'localhost';
 FLUSH PRIVILEGES;
-
--- Usar la base de datos
 USE itm;
 
--- Enum para Rol
-CREATE TABLE Rol (
-    nombre VARCHAR(20) PRIMARY KEY
-) ENGINE=InnoDB;
-
-INSERT INTO Rol (nombre) VALUES ('ADMIN'), ('USER'), ('GUEST');
-
--- Enum para TipoEvento
+-- Tabla de Tipos de Evento (Enum convertido en tabla)
 CREATE TABLE TipoEvento (
     nombre VARCHAR(50) PRIMARY KEY
-) ENGINE=InnoDB;
+);
 
 INSERT INTO TipoEvento (nombre) VALUES ('Asamblea'), ('Rodada'), ('Sancionado'), ('Cena'), ('Otro');
 
--- Enum para TipoMiembro6
+-- Tabla de Tipos de Miembro (Enum convertido en tabla)
 CREATE TABLE TipoMiembro (
     nombre VARCHAR(50) PRIMARY KEY
-) ENGINE=InnoDB;
+);
 
 INSERT INTO TipoMiembro (nombre) VALUES ('President'), ('Member'), ('Prospect'), ('Dama');
 
@@ -34,9 +25,7 @@ CREATE TABLE Miembros (
     nombre VARCHAR(255) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255),
-    rol VARCHAR(20) NOT NULL,
-    FOREIGN KEY (tipo) REFERENCES TipoMiembro(nombre),
-    FOREIGN KEY (rol) REFERENCES Rol(nombre)
+    FOREIGN KEY (tipo) REFERENCES TipoMiembro(nombre)
 ) ENGINE=InnoDB;
 
 -- Tabla Eventos
@@ -57,7 +46,7 @@ CREATE TABLE Acompanantes (
     descripcion VARCHAR(255)
 ) ENGINE=InnoDB;
 
--- Tabla Asistencia
+-- Tabla Asistencia (Miembros que asisten a eventos)
 CREATE TABLE Asistencia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     miembro_id INT NOT NULL,
@@ -68,7 +57,7 @@ CREATE TABLE Asistencia (
     FOREIGN KEY (evento_id) REFERENCES Eventos(id)
 ) ENGINE=InnoDB;
 
--- Tabla Asistencia_Acompanantes
+-- Tabla Asistencia_Acompanantes (Acompañantes que asisten a eventos)
 CREATE TABLE Asistencia_Acompanantes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     acompanante_id INT NOT NULL,

@@ -1,5 +1,5 @@
 package com.co.hackathon.itm_hackathon_web.models;
 
 public enum TipoEvento {
-    Asamblea, Rodada, Sancionado, Cena, Otro
+    Asamblea, Rodada, Sancionado, Cena, Fiesta, Competencia, Viaje;
 }
