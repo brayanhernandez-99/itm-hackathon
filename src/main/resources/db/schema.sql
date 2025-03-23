@@ -1,6 +1,8 @@
+-- Crear usuario
+CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
+
 -- Crear base de datos y usuario
 CREATE DATABASE IF NOT EXISTS itm;
-CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
 GRANT ALL PRIVILEGES ON itm.* TO 'springuser'@'localhost';
 FLUSH PRIVILEGES;
 USE itm;
