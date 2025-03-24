@@ -27,11 +27,13 @@
             <td th:text="${miembro.descripcion}"></td>
             <td>
                 <a th:href="@{/miembro/editar/{id}(id=${miembro.id})}">Editar</a>
+                <a>|</a>
                 <a th:href="@{/miembro/eliminar/{id}(id=${miembro.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
             </td>
         </tr>
         </tbody>
     </table>
+    <a th:href="@{/miembro}">Volver a Miembros</a>
 </div>
 </body>
 </html>

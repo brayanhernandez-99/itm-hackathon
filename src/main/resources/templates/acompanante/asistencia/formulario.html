@@ -8,19 +8,24 @@
 <body>
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
-    <h1 th:text="${asistencia.id == null ? 'Nueva Asistencia' : 'Editar Asistencia'}"></h1>
-    <form th:action="@{/acompanantes}" th:object="${acompanantes}" method="post">
-        <input type="hidden" th:if="${asistencia.id != null}" name="id" th:value="${asistencia.id}">
-        <label for="evento">Evento:</label>
-        <input type="text" id="evento" name="evento" th:value="${asistencia.evento}" required>
-        <label for="acompanante">Acompañante:</label>
-        <input type="text" id="acompanante" name="acompanante" th:value="${asistencia.acompanante}" required>
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" th:value="${asistencia.fecha}" required>
+    <h1 th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}"></h1>
+    <form th:action="@{/acompanante/asistencia}" th:object="${asistenciaAcompanante}" method="post">
+        <input type="hidden" th:if="${asistenciaAcompanante.id != null}" name="id" th:value="${asistenciaAcompanante.id}">
+        <label for="evento_id">Evento ID:</label>
+        <input type="number" id="evento_id" name="evento_id" th:field="*{evento.id}" required>
+        <label for="acompanante_id">Acompañante ID:</label>
+        <input type="number" id="acompanante_id" name="acompanante_id" th:field="*{acompanante.id}" required>
+        <label for="asistencia_moto">Asistencia en Moto:</label>
+        <select id="asistencia_moto" name="asistencia_moto" th:field="*{asistencia_moto}" required>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+        <label for="kilometraje">Kilometraje:</label>
+        <input type="number" id="kilometraje" name="kilometraje" th:field="*{kilometraje}" required>
         <button type="submit">Guardar</button>
     </form>
     <br>
-    <a href="/acompanantes">Volver a Acompañantes</a>
+    <a href="/acompanante/asistencia">Volver a Asistencias</a>
 </div>
 </body>
 </html>

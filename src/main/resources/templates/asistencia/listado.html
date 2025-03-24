@@ -26,13 +26,16 @@
             <td th:text="${asistencia.evento.descripcion}"></td>
             <td>
                 <span th:text="${asistencia.miembro.nombre}"></span>
+                <a>|</a>
                 <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${asistencia.miembro.id})}">Ver</a>
             </td>
             <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
             <td th:text="${asistencia.kilometraje}"></td>
             <td>
                 <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}">Ver</a>
+                <a>|</a>
                 <a th:href="@{/asistencia/editar/{id}(id=${asistencia.id})}">Editar</a>
+                <a>|</a>
                 <a th:href="@{/asistencia/eliminar/{id}(id=${asistencia.id})}"
                    onclick="return confirm('¿Estás seguro?');">Eliminar</a>
             </td>

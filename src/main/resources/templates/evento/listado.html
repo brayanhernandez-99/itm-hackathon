@@ -29,12 +29,15 @@
             <td th:text="${evento.tipo}"></td>
             <td>
                 <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
+                <a>|</a>
                 <a th:href="@{/evento/editar/{id}(id=${evento.id})}">Editar</a>
+                <a>|</a>
                 <a th:href="@{/evento/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
             </td>
         </tr>
         </tbody>
     </table>
+    <a th:href="@{/evento}">Volver a Eventos</a>
 </div>
 </body>
 </html>

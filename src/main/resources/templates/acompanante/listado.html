@@ -10,7 +10,7 @@
 <div class="content">
     <h1>Listado de Acompañantes</h1>
     <a href="/acompanante/nuevo">Nuevo Acompañante</a>
-    <table>
+    <table border="1">
         <thead>
         <tr>
             <th>Id</th>
@@ -25,13 +25,15 @@
             <td th:text="${acompanante.nombre}"></td>
             <td th:text="${acompanante.descripcion}"></td>
             <td>
-                <a th:href="@{/acompanante/editar/{id}(id=${acompanante.id})}">Editar</a> |
+                <a th:href="@{/acompanante/editar/{id}(id=${acompanante.id})}">Editar</a>
+                <a>|</a>
                 <a th:href="@{/acompanante/eliminar/{id}(id=${acompanante.id})}"
                    onclick="return confirm('¿Estás seguro?');">Eliminar</a>
             </td>
         </tr>
         </tbody>
     </table>
+    <a th:href="@{/acompanante}">Volver a Acompañantes</a>
 </div>
 </body>
 </html>
