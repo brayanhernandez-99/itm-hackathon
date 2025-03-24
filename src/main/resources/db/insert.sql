@@ -5,7 +5,7 @@ TipoEvento:
 ('Asamblea'), ('Rodada'), ('Sancionado'), ('Cena'), ('Fiesta'), ('Competencia'), ('Viaje');
 
 TipoMiembro:
-('President'), ('VIP'), ('Member'), ('Prospect'), ('Dama'), ('Tesorero');
+('President'), ('Member'), ('Prospect'), ('Dama');
 
 USE itm;
 
