@@ -17,8 +17,8 @@ public class AsistenciaAcompananteController{
 
     // 🔹 Mostrar todas las asistencias
     @GetMapping
-    public String obtenerTodasLasAsistencias(Model model) {
-        model.addAttribute("asistenciaAcompanante", asistenciaAcompananteService.obtenerTodasLasAsistencias());
+    public String obtenerTodasLasAsistenciasOld(Model model) {
+        model.addAttribute("asistenciaAcompanantes", asistenciaAcompananteService.obtenerTodasLasAsistencias());
         return "acompanante/asistencia/listado";
     }
 

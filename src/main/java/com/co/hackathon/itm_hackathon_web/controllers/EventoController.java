@@ -1,6 +1,5 @@
 package com.co.hackathon.itm_hackathon_web.controllers;
 
-import com.co.hackathon.itm_hackathon_web.models.Asistencia;
 import com.co.hackathon.itm_hackathon_web.models.Evento;
 import com.co.hackathon.itm_hackathon_web.models.Miembro;
 import com.co.hackathon.itm_hackathon_web.services.EventoService;
