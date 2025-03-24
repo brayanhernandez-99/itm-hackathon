@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>L.A.M.A Medellin</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8">
+    <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
-
+    <h1>Listado de Asistencias de Acompañantes</h1>
+    <a href="/acompanantes/nuevo">Nueva Asistencia</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Evento</th>
+            <th>Acompañante</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asistencia : ${asistencias}">
+            <td th:text="${asistencia.id}"></td>
+            <td th:text="${asistencia.evento}"></td>
+            <td th:text="${asistencia.acompanante}"></td>
+            <td th:text="${asistencia.fecha}"></td>
+            <td>
+                <a th:href="@{/acompanantes/editar/{id}(id=${asistencia.id})}">Editar</a> |
+                <a th:href="@{/acompanantes/eliminar/{id}(id=${asistencia.id})}"
+                   onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

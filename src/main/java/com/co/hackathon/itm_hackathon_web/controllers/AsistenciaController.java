@@ -29,7 +29,7 @@ public class AsistenciaController {
 
     // 🔹 Listar todas las asistencias
     @GetMapping
-    public String listarAsistencias(Model model) {
+    public String obtenerTodasLasAsistencias(Model model) {
         List<Asistencia> asistencias = asistenciaService.obtenerTodasLasAsistencias();
         if (asistencias == null || asistencias.isEmpty()) {
             throw new RuntimeException("No hay asistencias registradas");
