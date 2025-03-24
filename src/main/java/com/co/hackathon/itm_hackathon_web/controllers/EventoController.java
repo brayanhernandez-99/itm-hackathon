@@ -24,7 +24,7 @@ public class EventoController {
     }
 
     @GetMapping
-    public String listarEventos(Model model) {
+    public String obtenerTodosLosEventos(Model model) {
         List<Evento> eventos = eventoService.obtenerTodosLosEventos();
         if (eventos == null || eventos.isEmpty()){
             throw new RuntimeException("No hay eventos registrados");
