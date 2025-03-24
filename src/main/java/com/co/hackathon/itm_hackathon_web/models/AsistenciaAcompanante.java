@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AsistenciaAcompanantes {
+public class AsistenciaAcompanante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

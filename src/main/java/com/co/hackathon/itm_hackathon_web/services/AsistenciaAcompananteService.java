@@ -1,6 +1,6 @@
 package com.co.hackathon.itm_hackathon_web.services;
 
-import com.co.hackathon.itm_hackathon_web.models.AsistenciaAcompanantes;
+import com.co.hackathon.itm_hackathon_web.models.AsistenciaAcompanante;
 import com.co.hackathon.itm_hackathon_web.repositories.AsistenciaAcompananteRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +16,23 @@ public class AsistenciaAcompananteService {
     }
 
     // 🔹 Obtener todas las asistencias
-    public List<AsistenciaAcompanantes> obtenerTodasLasAsistencias() {
+    public List<AsistenciaAcompanante> obtenerTodasLasAsistencias() {
         return asistenciaAcompananteRepository.findAll();
     }
 
     // 🔹 Guardar nueva asistencia
-    public void guardarAsistenciaAcompanante(AsistenciaAcompanantes asistencia) {
+    public void guardarAsistenciaAcompanante(AsistenciaAcompanante asistencia) {
         asistenciaAcompananteRepository.save(asistencia);  // Persistir en la base de datos
     }
 
     // 🔹 Obtener asistencias por Acompañante
-    public List<AsistenciaAcompanantes> obtenerAsistenciasPorAcompanante(int acompananteId) {
+    public List<AsistenciaAcompanante> obtenerAsistenciasPorAcompanante(int acompananteId) {
         return asistenciaAcompananteRepository.findByAcompananteId(acompananteId);
     }
 
     // 🔹 Obtener asistencia por ID
-    public AsistenciaAcompanantes obtenerAsistenciaPorId(int id) {
-        Optional<AsistenciaAcompanantes> asistencia = asistenciaAcompananteRepository.findById(id);
+    public AsistenciaAcompanante obtenerAsistenciaPorId(int id) {
+        Optional<AsistenciaAcompanante> asistencia = asistenciaAcompananteRepository.findById(id);
         return asistencia.orElse(null);  // Retorna null si no se encuentra
     }
 
