@@ -16,6 +16,10 @@ public class EventoService {
         this.eventoRepository = eventoRepository;
     }
 
+    public void guardarEvento(Evento evento) {
+        eventoRepository.save(evento);
+    }
+
     public List<Evento> obtenerTodosLosEventos() {
         return eventoRepository.findAll();
     }
@@ -23,18 +27,6 @@ public class EventoService {
     public Evento obtenerEventoPorId(int id) {
         Optional<Evento> evento = eventoRepository.findById(id);
         return evento.orElseThrow(() -> new RuntimeException("Evento no encontrado"));
-    }
-
-    public void guardarEvento(Evento evento) {
-        eventoRepository.save(evento);
-    }
-
-    public void actualizarEvento(int id, Evento evento) {
-        if (!eventoRepository.existsById(id)) {
-            throw new RuntimeException("Evento no encontrado");
-        }
-        evento.setId(id);
-        eventoRepository.save(evento);
     }
 
     public void eliminarEvento(int id) {

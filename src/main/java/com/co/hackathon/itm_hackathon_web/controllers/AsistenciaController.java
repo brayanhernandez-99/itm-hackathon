@@ -9,6 +9,7 @@ import com.co.hackathon.itm_hackathon_web.services.MiembroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class AsistenciaController {
 
     // 🔹 Listar todas las asistencias
     @GetMapping
-    public String listarTodasLasAsistencias(Model model) {
+    public String listarAsistencias(Model model) {
         List<Asistencia> asistencias = asistenciaService.obtenerTodasLasAsistencias();
         if (asistencias == null || asistencias.isEmpty()) {
             throw new RuntimeException("No hay asistencias registradas");
@@ -37,15 +38,13 @@ public class AsistenciaController {
         return "asistencias/listado.html";
     }
 
-
     // 🔹 Listar asistencias por evento
     @GetMapping("/evento/{eventoId}")
-    public String listarAsistenciasPorEvento(@PathVariable int eventoId, Model model) {
+    public String listarAsistenciasPorEvento(@PathVariable int eventoId, Model model, HttpServletRequest request) {
         Evento evento = eventoService.obtenerEventoPorId(eventoId);
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorEvento(eventoId);
         model.addAttribute("evento", evento);
         model.addAttribute("asistencias", asistencias);
-        model.addAttribute("ocultarVer", true);
         return "asistencias/listado";
     }
 
@@ -59,28 +58,37 @@ public class AsistenciaController {
         return "asistencias/listado";
     }
 
-    // 🔹 Mostrar formulario para registrar asistencia
-    @GetMapping("/registrar/{eventoId}")
-    public String mostrarFormulario(@PathVariable int eventoId, Model model) {
+    // 🔹 Crear nueva asistencia
+    @GetMapping("/nuevo")
+    public String mostrarFormulario(Model model) {
         model.addAttribute("asistencia", new Asistencia());
-        model.addAttribute("evento", eventoService.obtenerEventoPorId(eventoId));
+        model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
         model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
         return "asistencias/formulario";
     }
 
-    // 🔹 Registrar nueva asistencia
-    @PostMapping("/registrar")
-    public String registrarAsistencia(@ModelAttribute Asistencia asistencia) {
-        asistenciaService.registrarAsistencia(asistencia);
-        return "redirect:/asistencias/evento/" + asistencia.getEvento().getId();
+    @PostMapping
+    public String guardarAsistencia(@ModelAttribute Asistencia asistencia) {
+        asistenciaService.guardarAsistencia(asistencia);
+        return "redirect:/asistencias";
+    }
+
+    // 🔹 Mostrar formulario para editar asistencia
+    @GetMapping("/editar/{id}")
+    public String editarAsistencia(@PathVariable int id, Model model) {
+        Asistencia asistencia = asistenciaService.obtenerAsistenciaPorId(id);
+        model.addAttribute("asistencia", asistencia);
+        model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
+        model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
+        return "asistencias/formulario";
     }
 
     // 🔹 Eliminar asistencia con validación
-    @GetMapping("/eliminar/{id}/{eventoId}")
-    public String eliminarAsistencia(@PathVariable int id, @PathVariable int eventoId) {
+    @GetMapping("/eliminar/{id}")
+    public String eliminarAsistencia(@PathVariable int id) {
         if (!asistenciaService.eliminarAsistencia(id)) {
             throw new RuntimeException("No se pudo eliminar asistencia");
         }
-        return "redirect:/asistencias/evento/" + eventoId;
+        return "redirect:/asistencias";
     }
 }

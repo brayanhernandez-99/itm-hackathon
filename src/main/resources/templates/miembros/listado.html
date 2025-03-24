@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
     <h1>Listado de Miembros</h1>
     <a th:href="@{/miembros/nuevo}">Añadir Miembro</a>
@@ -13,7 +13,6 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Rol</th>
             <th>Nombre</th>
             <th>Tipo</th>
             <th>Descripcion</th>
@@ -23,10 +22,9 @@
         <tbody>
         <tr th:each="miembro : ${miembros}">
             <td th:text="${miembro.id}"></td>
-            <td th:text="${miembro.rol}"></td>
             <td th:text="${miembro.nombre}"></td>
             <td th:text="${miembro.tipo}"></td>
-            <td th:text="${miembro.descripcion}"></td> <!-- Mostrar la descripción aquí -->
+            <td th:text="${miembro.descripcion}"></td>
             <td>
                 <a th:href="@{/miembros/editar/{id}(id=${miembro.id})}">Editar</a>
                 <a th:href="@{/miembros/eliminar/{id}(id=${miembro.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>

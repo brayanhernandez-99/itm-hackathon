@@ -29,7 +29,7 @@ public class MiembroController {
     }
 
     @GetMapping("/nuevo")
-    public String mostrarFormularioNuevoMiembro(Model model) {
+    public String crearMiembro(Model model) {
         model.addAttribute("miembro", new Miembro());
         return "miembros/formulario";
     }
@@ -41,16 +41,10 @@ public class MiembroController {
     }
 
     @GetMapping("/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
+    public String editarMiembro(@PathVariable int id, Model model) {
         Miembro miembro = miembroService.obtenerMiembroPorId(id);
         model.addAttribute("miembro", miembro);
         return "miembros/formulario";
-    }
-
-    @PostMapping("/actualizar/{id}")
-    public String actualizarMiembro(@PathVariable int id, @ModelAttribute Miembro miembro) {
-        miembroService.actualizarMiembro(id, miembro);
-        return "redirect:/miembros";
     }
 
     @GetMapping("/eliminar/{id}")

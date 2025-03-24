@@ -15,6 +15,11 @@ public class AsistenciaService {
         this.asistenciaRepository = asistenciaRepository;
     }
 
+    // 🔹 Registrar una nueva asistencia
+    public void guardarAsistencia(Asistencia asistencia) {
+        asistenciaRepository.save(asistencia);
+    }
+
     // 🔹 Obtener todas las asistencias
     public List<Asistencia> obtenerTodasLasAsistencias() {
         return asistenciaRepository.findAll();
@@ -30,9 +35,9 @@ public class AsistenciaService {
         return asistenciaRepository.findByMiembroId(miembroId);
     }
 
-    // 🔹 Registrar una nueva asistencia
-    public void registrarAsistencia(Asistencia asistencia) {
-        asistenciaRepository.save(asistencia);
+    // 🔹 Obtener asistencia por ID
+    public Asistencia obtenerAsistenciaPorId(int id) {
+        return asistenciaRepository.findById(id).orElse(null);
     }
 
     // 🔹 Eliminar una asistencia con validación
@@ -44,8 +49,4 @@ public class AsistenciaService {
         return false;
     }
 
-    // 🔹 Validar si una asistencia existe antes de eliminar
-    public boolean existeAsistencia(int id) {
-        return asistenciaRepository.existsById(id);
-    }
 }

@@ -2,27 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<h1>Formulario Miembro</h1>
-<form th:action="@{/miembros}" th:object="${miembro}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <label>Rol:</label>
-    <select th:field="*{rol}" required>
-        <option value="ADMIN">ADMIN</option>
-        <option value="USER">USER</option>
-        <option value="GUEST">GUEST</option>
-    </select>
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required/>
-    <label>Tipo:</label>
-    <select th:field="*{tipo}" required>
-        <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoMiembro).values()}"
-                th:value="${tipo}" th:text="${tipo}"></option>
-    </select>
-    <textarea th:field="*{descripcion}" rows="5" cols="40" required></textarea>
-    <button type="submit">Guardar</button>
-</form>
-<a th:href="@{/miembros}">Volver a Miembros</a>
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <h1>Formulario Miembro</h1>
+    <form th:action="@{/miembros}" th:object="${miembro}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" required/>
+        <label>Tipo:</label>
+        <select th:field="*{tipo}" required>
+            <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoMiembro).values()}"
+                    th:value="${tipo}" th:text="${tipo}"></option>
+        </select>
+        <textarea th:field="*{descripcion}" rows="5" cols="40" required></textarea>
+        <button type="submit">Guardar</button>
+    </form>
+    <a th:href="@{/miembros}">Volver a Miembros</a>
+</div>
 </body>
 </html>
