@@ -48,9 +48,9 @@ public class AsistenciaAcompananteController{
     }
 
     // 🔹 Mostrar asistencias por acompañante
-    @GetMapping("/asistencia/{acompananteId}")
+    @GetMapping("/{acompananteId}")
     public String obtenerAsistenciasPorAcompanante(@PathVariable int acompananteId, Model model) {
-        model.addAttribute("asistenciaAcompanante", asistenciaAcompananteService.obtenerAsistenciasPorAcompanante(acompananteId));
+        model.addAttribute("asistenciaAcompanantes", asistenciaAcompananteService.obtenerAsistenciasPorAcompanante(acompananteId));
         return "acompanante/asistencia/listado";
     }
 

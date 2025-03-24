@@ -27,6 +27,8 @@
             <td th:text="${acompanante.nombre}"></td>
             <td th:text="${acompanante.descripcion}"></td>
             <td>
+                <a th:href="@{/acompanante/asistencia/{acompananteId}(acompananteId=${acompanante.id})}">Ver</a>
+                <a>|</a>
                 <a th:href="@{/acompanante/editar/{id}(id=${acompanante.id})}">Editar</a>
                 <a>|</a>
                 <a th:href="@{/acompanante/eliminar/{id}(id=${acompanante.id})}"
