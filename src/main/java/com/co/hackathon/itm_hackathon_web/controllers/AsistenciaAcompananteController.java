@@ -2,10 +2,11 @@ package com.co.hackathon.itm_hackathon_web.controllers;
 
 import com.co.hackathon.itm_hackathon_web.models.AsistenciaAcompanante;
 import com.co.hackathon.itm_hackathon_web.services.AsistenciaAcompananteService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-@RestController
+@Controller
 @RequestMapping("/acompanante/asistencia")
 public class AsistenciaAcompananteController{
     private final AsistenciaAcompananteService asistenciaAcompananteService;
