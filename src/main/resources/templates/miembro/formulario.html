@@ -8,7 +8,7 @@
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
     <h1>Formulario Miembro</h1>
-    <form th:action="@{/miembros}" th:object="${miembro}" method="post">
+    <form th:action="@{/miembro}" th:object="${miembro}" method="post">
         <input type="hidden" th:field="*{id}"/>
         <label>Nombre:</label>
         <input type="text" th:field="*{nombre}" required/>
@@ -20,7 +20,7 @@
         <textarea th:field="*{descripcion}" rows="5" cols="40" required></textarea>
         <button type="submit">Guardar</button>
     </form>
-    <a th:href="@{/miembros}">Volver a Miembros</a>
+    <a th:href="@{/miembro}">Volver a Miembros</a>
 </div>
 </body>
 </html>

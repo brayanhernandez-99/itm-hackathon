@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/eventos")
+@RequestMapping("/evento")
 public class EventoController {
 
     private final EventoService eventoService;
@@ -30,7 +30,7 @@ public class EventoController {
             throw new RuntimeException("No hay eventos registrados");
         }
         model.addAttribute("eventos", eventos);
-        return "eventos/listado.html";  // Vista de listado.html de eventos
+        return "evento/listado";  // Vista de listado.html de eventos
     }
 
     @GetMapping("/nuevo")
@@ -38,13 +38,13 @@ public class EventoController {
         model.addAttribute("evento", new Evento());
         List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();  // Obtén todos los miembros para el formulario
         model.addAttribute("miembros", miembros);
-        return "eventos/formulario";  // Vista para añadir evento
+        return "evento/formulario";  // Vista para añadir evento
     }
 
     @PostMapping
     public String guardarEvento(@ModelAttribute Evento evento) {
         eventoService.guardarEvento(evento);
-        return "redirect:/eventos";
+        return "redirect:/evento";
     }
 
     @GetMapping("/editar/{id}")
@@ -53,12 +53,12 @@ public class EventoController {
         model.addAttribute("evento", evento);
         List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();  // Obtén todos los miembros para el formulario
         model.addAttribute("miembros", miembros);
-        return "eventos/formulario";  // Vista de formulario para editar evento
+        return "evento/formulario";  // Vista de formulario para editar evento
     }
 
     @GetMapping("/eliminar/{id}")
     public String eliminarEvento(@PathVariable int id) {
         eventoService.eliminarEvento(id);
-        return "redirect:/eventos";
+        return "redirect:/evento";
     }
 }

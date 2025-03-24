@@ -8,8 +8,8 @@
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
     <h1>Listado de Eventos</h1>
-    <a th:href="@{/eventos/nuevo}">Añadir Evento</a>
-    <a th:href="@{/asistencias}">Ver Asistencias</a>
+    <a th:href="@{/evento/nuevo}">Añadir Evento</a>
+    <a th:href="@{/asistencia}">Ver Asistencias</a>
     <table border="1">
         <thead>
         <tr>
@@ -29,9 +29,9 @@
             <td th:text="${evento.organizador.nombre}"></td>
             <td th:text="${evento.tipo}"></td>
             <td>
-                <a th:href="@{/asistencias/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
-                <a th:href="@{/eventos/editar/{id}(id=${evento.id})}">Editar</a>
-                <a th:href="@{/eventos/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+                <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
+                <a th:href="@{/evento/editar/{id}(id=${evento.id})}">Editar</a>
+                <a th:href="@{/evento/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
             </td>
         </tr>
         </tbody>

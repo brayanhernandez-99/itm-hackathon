@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <h1 th:text="${asistencia.id == null ? 'Nueva Asistencia' : 'Editar Asistencia'}"></h1>
+    <form th:action="@{/acompanantes}" th:object="${acompanantes}" method="post">
+        <input type="hidden" th:if="${asistencia.id != null}" name="id" th:value="${asistencia.id}">
+        <label for="evento">Evento:</label>
+        <input type="text" id="evento" name="evento" th:value="${asistencia.evento}" required>
+        <label for="acompanante">Acompañante:</label>
+        <input type="text" id="acompanante" name="acompanante" th:value="${asistencia.acompanante}" required>
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" th:value="${asistencia.fecha}" required>
+        <button type="submit">Guardar</button>
+    </form>
+    <br>
+    <a href="/acompanantes">Volver a Acompañantes</a>
+</div>
+</body>
+</html>

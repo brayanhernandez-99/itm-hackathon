@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AsistenciaAcompanantesRepository extends JpaRepository<AsistenciaAcompanantes, Integer> {
+public interface AsistenciaAcompananteRepository extends JpaRepository<AsistenciaAcompanantes, Integer> {
     List<AsistenciaAcompanantes> findByEventoId(int eventoId);
     List<AsistenciaAcompanantes> findByAcompananteId(int acompananteId);
 }

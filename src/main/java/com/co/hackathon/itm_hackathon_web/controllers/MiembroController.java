@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/miembros")
+@RequestMapping("/miembro")
 public class MiembroController {
 
     private final MiembroService miembroService;
@@ -25,31 +25,31 @@ public class MiembroController {
             throw new RuntimeException("No hay miembros registrados");
         }
         model.addAttribute("miembros", miembros);
-        return "miembros/listado.html";
+        return "miembro/listado";
     }
 
     @GetMapping("/nuevo")
     public String crearMiembro(Model model) {
         model.addAttribute("miembro", new Miembro());
-        return "miembros/formulario";
+        return "miembro/formulario";
     }
 
     @PostMapping
     public String guardarMiembro(@ModelAttribute Miembro miembro) {
         miembroService.guardarMiembro(miembro);
-        return "redirect:/miembros";
+        return "redirect:/miembro";
     }
 
     @GetMapping("/editar/{id}")
     public String editarMiembro(@PathVariable int id, Model model) {
         Miembro miembro = miembroService.obtenerMiembroPorId(id);
         model.addAttribute("miembro", miembro);
-        return "miembros/formulario";
+        return "miembro/formulario";
     }
 
     @GetMapping("/eliminar/{id}")
     public String eliminarMiembro(@PathVariable int id) {
         miembroService.eliminarMiembro(id);
-        return "redirect:/miembros";
+        return "redirect:/miembro";
     }
 }

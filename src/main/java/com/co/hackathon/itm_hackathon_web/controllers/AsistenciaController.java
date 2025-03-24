@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/asistencias")
+@RequestMapping("/asistencia")
 public class AsistenciaController {
 
     private final AsistenciaService asistenciaService;
@@ -35,7 +35,7 @@ public class AsistenciaController {
             throw new RuntimeException("No hay asistencias registradas");
         }
         model.addAttribute("asistencias", asistencias);
-        return "asistencias/listado.html";
+        return "asistencia/listado";
     }
 
     // 🔹 Listar asistencias por evento
@@ -45,7 +45,7 @@ public class AsistenciaController {
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorEvento(eventoId);
         model.addAttribute("evento", evento);
         model.addAttribute("asistencias", asistencias);
-        return "asistencias/listado";
+        return "asistencia/listado";
     }
 
     // 🔹 Listar asistencias por miembro
@@ -55,7 +55,7 @@ public class AsistenciaController {
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorMiembro(miembroId);
         model.addAttribute("miembro", miembro);
         model.addAttribute("asistencias", asistencias);
-        return "asistencias/listado";
+        return "asistencia/listado";
     }
 
     // 🔹 Crear nueva asistencia
@@ -64,13 +64,13 @@ public class AsistenciaController {
         model.addAttribute("asistencia", new Asistencia());
         model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
         model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
-        return "asistencias/formulario";
+        return "asistencia/formulario";
     }
 
     @PostMapping
     public String guardarAsistencia(@ModelAttribute Asistencia asistencia) {
         asistenciaService.guardarAsistencia(asistencia);
-        return "redirect:/asistencias";
+        return "redirect:/asistencia";
     }
 
     // 🔹 Mostrar formulario para editar asistencia
@@ -80,7 +80,7 @@ public class AsistenciaController {
         model.addAttribute("asistencia", asistencia);
         model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
         model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
-        return "asistencias/formulario";
+        return "asistencia/formulario";
     }
 
     // 🔹 Eliminar asistencia con validación
@@ -89,6 +89,6 @@ public class AsistenciaController {
         if (!asistenciaService.eliminarAsistencia(id)) {
             throw new RuntimeException("No se pudo eliminar asistencia");
         }
-        return "redirect:/asistencias";
+        return "redirect:/asistencia";
     }
 }

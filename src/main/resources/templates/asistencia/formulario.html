@@ -9,7 +9,7 @@
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
     <h1>Registrar Asistencia</h1>
-  <form th:action="@{/asistencias}" th:object="${asistencia}" method="post">
+  <form th:action="@{/asistencia}" th:object="${asistencia}" method="post">
         <input type="hidden" th:field="*{id}"/>
         <label for="evento">Evento:</label>
         <select id="evento" th:field="*{evento.id}">
@@ -29,7 +29,7 @@
         <br/>
         <button type="submit">Guardar</button>
     </form>
-    <a th:href="@{/asistencias}">Volver a Asistencias</a>
+    <a th:href="@{/asistencia}">Volver a Asistencias</a>
 </div>
 </body>
 </html>
