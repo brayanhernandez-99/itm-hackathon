@@ -10,7 +10,8 @@
 <div class="content">
     <h1 th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}"></h1>
     <form th:action="@{/acompanante/asistencia}" th:object="${asistenciaAcompanante}" method="post">
-        <input type="hidden" th:if="${asistenciaAcompanante.id != null}" name="id" th:value="${asistenciaAcompanante.id}">
+        <input type="hidden" th:if="${asistenciaAcompanante.id != null}" name="id"
+               th:value="${asistenciaAcompanante.id}">
         <label for="evento">Evento:</label>
         <select id="evento" th:field="*{evento.id}">
             <option th:each="evento : ${eventos}" th:value="${evento.id}"
