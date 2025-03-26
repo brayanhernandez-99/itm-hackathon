@@ -69,6 +69,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version> <!-- Versión corregida -->
             <scope>provided</scope>
         </dependency>
 
@@ -143,6 +144,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>1.18.30</version> <!-- Agregada versión de Lombok -->
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
