@@ -8,10 +8,16 @@
 <body>
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
-    <h1>Listado de Acompañantes</h1>
-    <a href="/acompanante/nuevo">Nuevo Acompañante</a>
-    <a>|</a>
-    <a href="/acompanante/asistencia">Ver Asistencias</a>
+    <div class="container">
+        <h1>Listado de Acompañantes</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/acompanante/nuevo}">Nuevo Acompañante</a></li>
+                <li><a th:href="@{/acompanante/asistencia/nuevo}">Nueva Asistencia</a></li>
+                <li><a th:href="@{/acompanante/asistencia}">Ver Asistencias</a></li>
+            </ul>
+        </nav>
+    </div>
     <table border="1">
         <thead>
         <tr>
@@ -24,11 +30,13 @@
         <tbody>
         <tr th:each="acompanante : ${acompanantes}">
             <td th:text="${acompanante.id}"></td>
-            <td th:text="${acompanante.nombre}"></td>
+            <td>
+                <a th:text="${acompanante.nombre}"></a>
+                <a>|</a>
+                <a th:href="@{/acompanante/asistencia/{acompananteId}(acompananteId=${acompanante.id})}">Ver</a>
+            </td>
             <td th:text="${acompanante.descripcion}"></td>
             <td>
-                <a th:href="@{/acompanante/asistencia/{acompananteId}(acompananteId=${acompanante.id})}">Ver</a>
-                <a>|</a>
                 <a th:href="@{/acompanante/editar/{id}(id=${acompanante.id})}">Editar</a>
                 <a>|</a>
                 <a th:href="@{/acompanante/eliminar/{id}(id=${acompanante.id})}"
@@ -37,7 +45,6 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/acompanante}">Volver a Acompañantes</a>
 </div>
 </body>
 </html>

@@ -11,10 +11,18 @@
     <h1 th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}"></h1>
     <form th:action="@{/acompanante/asistencia}" th:object="${asistenciaAcompanante}" method="post">
         <input type="hidden" th:if="${asistenciaAcompanante.id != null}" name="id" th:value="${asistenciaAcompanante.id}">
-        <label for="evento_id">Evento ID:</label>
-        <input type="number" id="evento_id" name="evento_id" th:field="*{evento.id}" required>
-        <label for="acompanante_id">Acompañante ID:</label>
-        <input type="number" id="acompanante_id" name="acompanante_id" th:field="*{acompanante.id}" required>
+        <label for="evento">Evento:</label>
+        <select id="evento" th:field="*{evento.id}">
+            <option th:each="evento : ${eventos}" th:value="${evento.id}"
+                    th:text="${evento.descripcion}"
+                    th:selected="${evento.id == asistenciaAcompanante.evento.id}"></option>
+        </select>
+        <label for="acompanante">Acompañante:</label>
+        <select id="acompanante" th:field="*{acompanante.id}">
+            <option th:each="acompanante : ${acompanantes}" th:value="${acompanante.id}"
+                    th:text="${acompanante.nombre}"
+                    th:selected="${acompanante.id == asistenciaAcompanante.acompanante.id}"></option>
+        </select>
         <label for="asistencia_moto">Asistencia en Moto:</label>
         <select id="asistencia_moto" name="asistencia_moto" th:field="*{asistencia_moto}" required>
             <option value="true">Sí</option>

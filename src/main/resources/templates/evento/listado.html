@@ -7,14 +7,20 @@
 <body>
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
-    <h1>Listado de Eventos</h1>
-    <a th:href="@{/evento/nuevo}">Añadir Evento</a>
+    <div class="container">
+        <h1>Listado de Eventos</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/evento/nuevo}">Nuevo Evento</a></li>
+            </ul>
+        </nav>
+    </div>
     <table border="1">
         <thead>
         <tr>
             <th>Id</th>
             <th>Fecha</th>
-            <th>Descripcion</th>
+            <th>Evento</th>
             <th>Organizador</th>
             <th>Tipo</th>
             <th>Acciones</th>
@@ -24,12 +30,14 @@
         <tr th:each="evento : ${eventos}">
             <td th:text="${evento.id}"></td>
             <td th:text="${evento.fecha}"></td>
-            <td th:text="${evento.descripcion}"></td>
+            <td>
+                <a th:text="${evento.descripcion}"></a>
+                <a>|</a>
+                <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
+            </td>
             <td th:text="${evento.organizador.nombre}"></td>
             <td th:text="${evento.tipo}"></td>
             <td>
-                <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
-                <a>|</a>
                 <a th:href="@{/evento/editar/{id}(id=${evento.id})}">Editar</a>
                 <a>|</a>
                 <a th:href="@{/evento/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
@@ -37,7 +45,6 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/evento}">Volver a Eventos</a>
 </div>
 </body>
 </html>

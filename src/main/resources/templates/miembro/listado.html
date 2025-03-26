@@ -7,24 +7,33 @@
 <body>
 <div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
 <div class="content">
-    <h1>Listado de Miembros</h1>
-    <a th:href="@{/miembro/nuevo}">Añadir Miembro</a>
-    <a>|</a>
-    <a th:href="@{/asistencia}">Ver Asistencias</a>
+    <div class="container">
+        <h1>Listado de Miembros</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/miembro/nuevo}">Nuevo Miembro</a></li>
+                <li><a th:href="@{/asistencia}">Ver Asistencias</a></li>
+            </ul>
+        </nav>
+    </div>
     <table border="1">
         <thead>
         <tr>
             <th>Id</th>
             <th>Nombre</th>
             <th>Tipo</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="miembro : ${miembros}">
             <td th:text="${miembro.id}"></td>
-            <td th:text="${miembro.nombre}"></td>
+            <td>
+                <a th:text="${miembro.nombre}"></a>
+                <a>|</a>
+                <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${miembro.id})}">Ver</a>
+            </td>
             <td th:text="${miembro.tipo}"></td>
             <td th:text="${miembro.descripcion}"></td>
             <td>
@@ -35,7 +44,6 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/miembro}">Volver a Miembros</a>
 </div>
 </body>
 </html>
