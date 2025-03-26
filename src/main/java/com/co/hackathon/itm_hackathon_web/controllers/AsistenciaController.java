@@ -6,11 +6,17 @@ import com.co.hackathon.itm_hackathon_web.models.Miembro;
 import com.co.hackathon.itm_hackathon_web.services.AsistenciaService;
 import com.co.hackathon.itm_hackathon_web.services.EventoService;
 import com.co.hackathon.itm_hackathon_web.services.MiembroService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -140,5 +146,44 @@ public class AsistenciaController {
             throw new RuntimeException("No se pudo eliminar asistencia");
         }
         return "redirect:/asistencia";
+    }
+
+    @GetMapping("/reporte")
+    public String reporteAsistencias(Model model) {
+        List<Asistencia> asistencias = asistenciaService.obtenerTodasLasAsistencias();
+        model.addAttribute("asistencias", asistencias);
+
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+
+            Paragraph title = new Paragraph("Listado de Asistencias");
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            // Añadir contenido de acompañantes
+            for (Asistencia asistencia : asistencias) {
+                document.add(new Paragraph("Id: " + asistencia.getId()));
+                document.add(new Paragraph("Evento Fecha: " + asistencia.getEvento().getFecha()));
+                document.add(new Paragraph("Evento Descripción: " + asistencia.getEvento().getDescripcion()));
+                document.add(new Paragraph("Miembro: " + asistencia.getMiembro().getNombre()));
+                document.add(new Paragraph("Asistencia Moto: " + (asistencia.getAsistencia_moto() ? "Si" : "No")));
+                document.add(new Paragraph("Kilometraje: " + asistencia.getKilometraje()));
+                document.add(new Paragraph("-----------------------------------------------------"));
+            }
+            document.close();
+
+            // Guardar el archivo
+            FileOutputStream reporte = new FileOutputStream("Asistencias.pdf");
+            outputStream.writeTo(reporte);
+            reporte.close();
+
+            model.addAttribute("Exito", "PDF generado exitosamente.");
+        } catch (Exception e) {
+            model.addAttribute("Error", "Error al generar PDF: " + e.getMessage());
+        }
+        return "asistencia/listado";
     }
 }

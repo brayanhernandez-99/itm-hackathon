@@ -11,22 +11,21 @@
 <div class="content">
     <header>
         <h1>L.A.M.A Medellín</h1>
-        <h2>Gestión de Miembros - Eventos - Asistencias - Acompañantes</h2>
+        <h2>Gestión de Reportes</h2>
     </header>
     <div class="container">
         <nav>
             <ul>
-                <li><a th:href="@{/}">Inicio</a></li>
-                <li><a th:href="@{/evento}">Eventos</a></li>
-                <li><a th:href="@{/miembro}">Miembros</a></li>
-                <li><a th:href="@{/acompanante}">Acompañantes</a></li>
-                <li><a th:href="@{/asistencia}">Asistencias</a></li>
+                <li><a th:href="@{/miembro/reporte}" onclick="return confirm('¿Generar reporte Miembros?');">Reporte Miembros</a></li>
+                <li><a th:href="@{/evento/reporte}" onclick="return confirm('¿Generar reporte Eventos?');">Reporte Eventos</a></li>
+                <li><a th:href="@{/asistencia/reporte}" onclick="return confirm('¿Generar reporte Asistencias?');">Reporte Asistencias</a></li>
+                <li><a th:href="@{/acompanante/reporte}" onclick="return confirm('¿Generar reporte Acompañantes?');">Reporte Acompañantes</a></li>
             </ul>
         </nav>
         <!-- Contenido principal -->
         <main class="container">
             <section>
-                <p>Seleccione una opción en el menú para gestionar la información.</p>
+                <p>Seleccione una opción en el menú para gestionar los reportes.</p>
             </section>
         </main>
     </div>

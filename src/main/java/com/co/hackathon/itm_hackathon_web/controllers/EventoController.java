@@ -4,10 +4,16 @@ import com.co.hackathon.itm_hackathon_web.models.Evento;
 import com.co.hackathon.itm_hackathon_web.models.Miembro;
 import com.co.hackathon.itm_hackathon_web.services.EventoService;
 import com.co.hackathon.itm_hackathon_web.services.MiembroService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -99,5 +105,43 @@ public class EventoController {
     public String eliminarEvento(@PathVariable int id) {
         eventoService.eliminarEvento(id);
         return "redirect:/evento";
+    }
+
+    @GetMapping("/reporte")
+    public String reporteEventos(Model model) {
+        List<Evento> eventos = eventoService.obtenerTodosLosEventos();
+        model.addAttribute("eventos", eventos);
+
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+
+            Paragraph title = new Paragraph("Listado de Eventos");
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            // Añadir contenido de acompañantes
+            for (Evento evento : eventos) {
+                document.add(new Paragraph("Id: " + evento.getId()));
+                document.add(new Paragraph("Descripción: " + evento.getDescripcion()));
+                document.add(new Paragraph("Organizador: " + evento.getOrganizador().getNombre()));
+                document.add(new Paragraph("Fecha: " + evento.getFecha()));
+                document.add(new Paragraph("Tipo: " + evento.getTipo()));
+                document.add(new Paragraph("-----------------------------------------------------"));
+            }
+            document.close();
+
+            // Guardar el archivo
+            FileOutputStream reporte = new FileOutputStream("Eventos.pdf");
+            outputStream.writeTo(reporte);
+            reporte.close();
+
+            model.addAttribute("Exito", "PDF generado exitosamente.");
+        } catch (Exception e) {
+            model.addAttribute("Error", "Error al generar PDF: " + e.getMessage());
+        }
+        return "evento/listado";
     }
 }

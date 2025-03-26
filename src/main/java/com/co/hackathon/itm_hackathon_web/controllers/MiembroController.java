@@ -2,10 +2,16 @@ package com.co.hackathon.itm_hackathon_web.controllers;
 
 import com.co.hackathon.itm_hackathon_web.models.Miembro;
 import com.co.hackathon.itm_hackathon_web.services.MiembroService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -86,4 +92,42 @@ public class MiembroController {
         miembroService.eliminarMiembro(id);
         return "redirect:/miembro";
     }
+
+    @GetMapping("/reporte")
+    public String reporteMiembros(Model model) {
+        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
+        model.addAttribute("miembros", miembros);
+
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+
+            Paragraph title = new Paragraph("Listado de Miembros");
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            // Añadir contenido de acompañantes
+            for (Miembro miembro : miembros) {
+                document.add(new Paragraph("Id: " + miembro.getId()));
+                document.add(new Paragraph("Tipo: " + miembro.getTipo()));
+                document.add(new Paragraph("Miembro: " + miembro.getNombre()));
+                document.add(new Paragraph("Descripción: " + miembro.getDescripcion()));
+                document.add(new Paragraph("-----------------------------------------------------"));
+            }
+            document.close();
+
+            // Guardar el archivo
+            FileOutputStream reporte = new FileOutputStream("Miembros.pdf");
+            outputStream.writeTo(reporte);
+            reporte.close();
+
+            model.addAttribute("Exito", "PDF generado exitosamente.");
+        } catch (Exception e) {
+            model.addAttribute("Error", "Error al generar PDF: " + e.getMessage());
+        }
+        return "miembro/listado";
+    }
+
 }
