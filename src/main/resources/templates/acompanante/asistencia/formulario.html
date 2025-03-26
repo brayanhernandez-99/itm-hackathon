@@ -1,40 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>L.A.M.A Medellin</title>
+    <title th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}">Formulario Asistencia Acompañante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1 th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}"></h1>
-    <form th:action="@{/acompanante/asistencia}" th:object="${asistenciaAcompanante}" method="post">
-        <input type="hidden" th:if="${asistenciaAcompanante.id != null}" name="id"
-               th:value="${asistenciaAcompanante.id}">
-        <label for="evento">Evento:</label>
-        <select id="evento" th:field="*{evento.id}">
-            <option th:each="evento : ${eventos}" th:value="${evento.id}"
-                    th:text="${evento.descripcion}"
-                    th:selected="${evento.id == asistenciaAcompanante.evento.id}"></option>
-        </select>
-        <label for="acompanante">Acompañante:</label>
-        <select id="acompanante" th:field="*{acompanante.id}">
-            <option th:each="acompanante : ${acompanantes}" th:value="${acompanante.id}"
-                    th:text="${acompanante.nombre}"
-                    th:selected="${acompanante.id == asistenciaAcompanante.acompanante.id}"></option>
-        </select>
-        <label for="asistencia_moto">Asistencia en Moto:</label>
-        <select id="asistencia_moto" name="asistencia_moto" th:field="*{asistencia_moto}" required>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-        </select>
-        <label for="kilometraje">Kilometraje:</label>
-        <input type="number" id="kilometraje" name="kilometraje" th:field="*{kilometraje}" required>
-        <button type="submit">Guardar</button>
-    </form>
-    <br>
-    <a href="/acompanante/asistencia">Volver a Asistencias</a>
+<div class="d-flex">
+    <!-- Sidebar: Se incluye el fragmento definido en fragments/sidebar.html -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4" th:text="${asistenciaAcompanante.id == null ? 'Nueva Asistencia Acompañante' : 'Editar Asistencia Acompañante'}"></h1>
+            <form th:action="@{/acompanante/asistencia}" th:object="${asistenciaAcompanante}" method="post">
+                <input type="hidden" th:if="${asistenciaAcompanante.id != null}" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="evento" class="form-label">Evento:</label>
+                    <select id="evento" th:field="*{evento.id}" class="form-select">
+                        <option th:each="evento : ${eventos}"
+                                th:value="${evento.id}"
+                                th:text="${evento.descripcion}"
+                                th:selected="${evento.id == asistenciaAcompanante.evento.id}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="acompanante" class="form-label">Acompañante:</label>
+                    <select id="acompanante" th:field="*{acompanante.id}" class="form-select">
+                        <option th:each="acompanante : ${acompanantes}"
+                                th:value="${acompanante.id}"
+                                th:text="${acompanante.nombre}"
+                                th:selected="${acompanante.id == asistenciaAcompanante.acompanante.id}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="asistencia_moto" class="form-label">Asistencia en Moto:</label>
+                    <select id="asistencia_moto" th:field="*{asistencia_moto}" class="form-select" required>
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="kilometraje" class="form-label">Kilometraje:</label>
+                    <input type="number" id="kilometraje" th:field="*{kilometraje}" class="form-control" placeholder="Ingrese el kilometraje" required>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a th:href="@{/acompanante/asistencia}" class="btn btn-secondary ms-2">Volver a Asistencias</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer: Se puede incluir el fragmento de footer si se tiene -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

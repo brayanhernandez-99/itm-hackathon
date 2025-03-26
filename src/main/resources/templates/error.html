@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>L.A.M.A Medellín</title>
+    <title>Error - L.A.M.A Medellín</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -10,26 +10,27 @@
 </head>
 <body>
 <div class="d-flex">
-    <!-- Sidebar: se incluye el fragmento definido en fragments/sidebar.html -->
+    <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <!-- Contenido principal -->
     <div class="flex-grow-1 d-flex flex-column">
-        <header class="bg-light py-5">
-            <div class="container text-center">
-                <h1 class="display-4">Bienvenido a L.A.M.A Medellín</h1>
-                <p class="lead">Gestión de Miembros - Eventos - Asistencias - Acompañantes</p>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">L.A.M.A Medellín</a>
             </div>
-        </header>
+        </nav>
 
         <div class="container my-5 flex-grow-1">
-            <!-- Contenido dinámico -->
-            <section>
-                <p>Seleccione una opción en el menú para gestionar la información.</p>
-            </section>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">¡Ocurrió un error!</h4>
+                <p th:text="${error}">Mensaje de error</p>
+                <hr>
+                <a href="/" class="btn btn-primary">Volver al inicio</a>
+            </div>
         </div>
 
-        <!-- Footer: se incluye el fragmento definido en fragments/footer.html -->
+        <!-- Footer: se incluye como fragmento -->
         <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
 </div>

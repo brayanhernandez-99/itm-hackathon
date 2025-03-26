@@ -9,6 +9,6 @@ public class ReporteController {
 
     @GetMapping("/reportes")
     public String mostrarReportes(Model model) {
-        return "reportes"; // Retorna la vista reportes.html en templates
+        return "reportes";
     }
 }

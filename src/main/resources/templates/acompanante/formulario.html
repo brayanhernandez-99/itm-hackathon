@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>L.A.M.A Medellin</title>
+    <title th:text="${acompanante.id == null ? 'Nuevo Acompañante' : 'Editar Acompañante'}">Formulario Acompañante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1 th:text="${acompanante.id == null ? 'Nuevo Acompañante' : 'Editar Acompañante'}"></h1>
-    <form th:action="@{/acompanante}" th:object="${acompanante}" method="post">
-        <input type="hidden" th:if="${acompanante.id != null}" name="id" th:value="${acompanante.id}">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required>
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" th:field="*{descripcion}">
-        <button type="submit">Guardar</button>
-    </form>
-    <br>
-    <a href="/acompanante">Volver al Acompañantes</a>
+<div class="d-flex">
+    <!-- Sidebar: Se incluye el fragmento de sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4" th:text="${acompanante.id == null ? 'Nuevo Acompañante' : 'Editar Acompañante'}"></h1>
+            <form th:action="@{/acompanante}" th:object="${acompanante}" method="post">
+                <input type="hidden" th:if="${acompanante.id != null}" th:field="*{id}">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingrese el nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <input type="text" id="descripcion" th:field="*{descripcion}" class="form-control" placeholder="Ingrese una descripción">
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="/acompanante" class="btn btn-secondary ms-2">Volver a Acompañantes</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer: Se puede incluir el fragmento de footer si se tiene -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

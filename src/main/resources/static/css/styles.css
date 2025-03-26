@@ -1,40 +1,89 @@
-/* Sidebar */
+/* Fondo general y tipografía */
+body {
+    background-color: #f8f9fa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Sidebar personalizado */
 .sidebar {
-    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem;
     height: 100vh;
-    background: #333;
-    color: white;
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 20px;
 }
 
 .sidebar h2 {
     text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
+    padding-left: 0;
 }
 
 .sidebar ul li {
-    padding: 10px;
+    margin: 0.5rem 0;
 }
 
 .sidebar ul li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
     display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
 }
 
 .sidebar ul li a:hover {
-    background: #555;
+    background-color: #495057;
 }
 
 /* Contenido principal */
 .content {
-    margin-left: 260px;
-    padding: 20px;
+    margin-left: 260px; /* Ajusta según el ancho del sidebar */
+    padding: 2rem;
+}
+
+/* Formularios */
+form .form-label {
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    margin-bottom: 1rem;
+}
+
+/* Tablas */
+table {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    vertical-align: middle;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+/* Ajustes para contenedores */
+.container {
+    margin-top: 2rem;
+}
+
+/* Botones personalizados si se requiere */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }

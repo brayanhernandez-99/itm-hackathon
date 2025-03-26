@@ -1,20 +1,48 @@
-<!-- templates/fragments/sidebar.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Asegúrate de tener estilos -->
+    <meta charset="UTF-8">
+    <title>Sidebar Fragment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="sidebar">
-    <h2>Menú</h2>
-    <ul>
-        <li><a th:href="@{/}">Inicio</a></li>
-        <li><a th:href="@{/evento}">Eventos</a></li>
-        <li><a th:href="@{/miembro}">Miembros</a></li>
-        <li><a th:href="@{/acompanante}">Acompañantes</a></li>
-        <!-- <li><a th:href="@{/asistencia}">Asistencia Miembros</a></li> -->
-        <!-- <li><a th:href="@{/acompanante/asistencia}">Asistencia Acompañantes</a></li> -->
-        <li><a th:href="@{/reportes}">Reportes</a></li>
-    </ul>
+<!-- Fragmento del Sidebar -->
+<div th:fragment="sidebar">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 280px; height: 100vh;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-4">L.A.M.A Medellín</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/" class="nav-link text-white">Inicio</a>
+            </li>
+            <li>
+                <a href="/evento" class="nav-link text-white">Eventos</a>
+            </li>
+            <li>
+                <a href="/miembro" class="nav-link text-white">Miembros</a>
+            </li>
+            <li>
+                <a href="/acompanante" class="nav-link text-white">Acompañantes</a>
+            </li>
+            <li>
+                <a href="/asistencia" class="nav-link text-white">Asistencias</a>
+            </li>
+            <li>
+                <a href="/reportes" class="nav-link text-white">Reportes</a>
+            </li>
+        </ul>
+        <hr>
+        <div class="text-white">
+            <small>© 2025 Hackathon ITM</small>
+        </div>
+    </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

@@ -1,26 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>L.A.M.A Medellin</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title>Formulario Miembro - L.A.M.A Medellín</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1>Formulario Miembro</h1>
-    <form th:action="@{/miembro}" th:object="${miembro}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <label>Nombre:</label>
-        <input type="text" th:field="*{nombre}" required/>
-        <label>Tipo:</label>
-        <select th:field="*{tipo}" required>
-            <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoMiembro).values()}"
-                    th:value="${tipo}" th:text="${tipo}"></option>
-        </select>
-        <textarea th:field="*{descripcion}" rows="5" cols="40" required></textarea>
-        <button type="submit">Guardar</button>
-    </form>
-    <a th:href="@{/miembro}">Volver a Miembros</a>
+<div class="d-flex">
+    <!-- Sidebar: se incluye el fragmento definido en fragments/sidebar.html -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4">Formulario Miembro</h1>
+            <form th:action="@{/miembro}" th:object="${miembro}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingrese el nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo:</label>
+                    <select id="tipo" th:field="*{tipo}" class="form-select" required>
+                        <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoMiembro).values()}"
+                                th:value="${tipo}" th:text="${tipo}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <textarea id="descripcion" th:field="*{descripcion}" rows="5" class="form-control" placeholder="Ingrese una descripción" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a th:href="@{/miembro}" class="btn btn-secondary ms-2">Volver a Miembros</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -8,17 +8,16 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.List;
 
-/**
- * Controlador para gestionar los eventos dentro del sistema.
- */
 @Controller
 @RequestMapping("/evento")
 public class EventoController {
@@ -26,84 +25,62 @@ public class EventoController {
     private final EventoService eventoService;
     private final MiembroService miembroService;
 
-    /**
-     * Constructor que inyecta los servicios necesarios.
-     *
-     * @param eventoService Servicio para la gestión de eventos.
-     * @param miembroService Servicio para la gestión de miembros.
-     */
     public EventoController(EventoService eventoService, MiembroService miembroService) {
         this.eventoService = eventoService;
         this.miembroService = miembroService;
     }
 
-    /**
-     * Método para obtener y mostrar todos los eventos registrados.
-     *
-     * @param model Modelo de datos para la vista.
-     * @return Vista con la lista de eventos.
-     */
     @GetMapping
     public String obtenerTodosLosEventos(Model model) {
         List<Evento> eventos = eventoService.obtenerTodosLosEventos();
         if (eventos == null || eventos.isEmpty()) {
-            throw new RuntimeException("No hay eventos registrados");
+            model.addAttribute("error", "No hay eventos registrados");
+            return "evento/listado";
         }
         model.addAttribute("eventos", eventos);
-        return "evento/listado";  // Vista de listado de eventos
+        return "evento/listado";
     }
 
-    /**
-     * Método para mostrar el formulario de creación de un nuevo evento.
-     *
-     * @param model Modelo de datos para la vista.
-     * @return Vista del formulario de creación de evento.
-     */
     @GetMapping("/nuevo")
     public String crearEvento(Model model) {
         model.addAttribute("evento", new Evento());
-        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();  // Obtener todos los miembros
+        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
         model.addAttribute("miembros", miembros);
-        return "evento/formulario";  // Vista para añadir evento
+        return "evento/formulario";
     }
 
-    /**
-     * Método para guardar un nuevo evento desde el formulario.
-     *
-     * @param evento Objeto evento recibido desde el formulario.
-     * @return Redirección a la lista de eventos.
-     */
     @PostMapping
-    public String guardarEvento(@ModelAttribute Evento evento) {
+    public String guardarEvento(@Valid @ModelAttribute Evento evento, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
+            model.addAttribute("miembros", miembros);
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "evento/formulario";
+        }
         eventoService.guardarEvento(evento);
         return "redirect:/evento";
     }
 
-    /**
-     * Método para mostrar el formulario de edición de un evento.
-     *
-     * @param id Identificador del evento a editar.
-     * @param model Modelo de datos para la vista.
-     * @return Vista del formulario con los datos del evento.
-     */
     @GetMapping("/editar/{id}")
     public String editarEvento(@PathVariable int id, Model model) {
         Evento evento = eventoService.obtenerEventoPorId(id);
+        if (evento == null) {
+            model.addAttribute("error", "Evento no encontrado");
+            return "redirect:/evento";
+        }
         model.addAttribute("evento", evento);
-        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();  // Obtener todos los miembros
+        List<Miembro> miembros = miembroService.obtenerTodosLosMiembros();
         model.addAttribute("miembros", miembros);
-        return "evento/formulario";  // Vista de formulario para editar evento
+        return "evento/formulario";
     }
 
-    /**
-     * Método para eliminar un evento.
-     *
-     * @param id Identificador del evento a eliminar.
-     * @return Redirección a la lista de eventos.
-     */
     @GetMapping("/eliminar/{id}")
-    public String eliminarEvento(@PathVariable int id) {
-        eventoService.eliminarEvento(id);
+    public String eliminarEvento(@PathVariable int id, Model model) {
+        try {
+            eventoService.eliminarEvento(id);
+        } catch (RuntimeException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
         return "redirect:/evento";
     }
 
@@ -122,18 +99,16 @@ public class EventoController {
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
 
-            // Añadir contenido de acompañantes
             for (Evento evento : eventos) {
                 document.add(new Paragraph("Id: " + evento.getId()));
                 document.add(new Paragraph("Descripción: " + evento.getDescripcion()));
-                document.add(new Paragraph("Organizador: " + evento.getOrganizador().getNombre()));
+                document.add(new Paragraph("Organizador: " + (evento.getOrganizador() != null ? evento.getOrganizador().getNombre() : "N/A")));
                 document.add(new Paragraph("Fecha: " + evento.getFecha()));
                 document.add(new Paragraph("Tipo: " + evento.getTipo()));
                 document.add(new Paragraph("-----------------------------------------------------"));
             }
             document.close();
 
-            // Guardar el archivo
             FileOutputStream reporte = new FileOutputStream("Eventos.pdf");
             outputStream.writeTo(reporte);
             reporte.close();
@@ -143,5 +118,11 @@ public class EventoController {
             model.addAttribute("Error", "Error al generar PDF: " + e.getMessage());
         }
         return "evento/listado";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "error";
     }
 }

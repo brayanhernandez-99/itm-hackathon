@@ -1,49 +1,69 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>L.A.M.A Medellin</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title>L.A.M.A Medellín - Listado de Miembros</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <div class="container">
-        <h1>Listado de Miembros</h1>
-        <nav>
-            <ul>
-                <li><a th:href="@{/miembro/nuevo}">Nuevo Miembro</a></li>
-                <li><a th:href="@{/asistencia}">Ver Asistencias</a></li>
-            </ul>
-        </nav>
+<div class="d-flex">
+    <!-- Sidebar: se incluye el fragmento definido en fragments/sidebar.html -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-4">
+            <h1 class="mb-4">Listado de Miembros</h1>
+            <nav class="mb-3">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-success text-white" th:href="@{/miembro/nuevo}">Nuevo Miembro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-info text-white ms-2" th:href="@{/asistencia}">Ver Asistencias</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="miembro : ${miembros}">
+                        <td th:text="${miembro.id}"></td>
+                        <td>
+                            <span th:text="${miembro.nombre}"></span>
+                            <br>
+                            <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${miembro.id})}" class="btn btn-link p-0">Ver Asistencias</a>
+                        </td>
+                        <td th:text="${miembro.tipo}"></td>
+                        <td th:text="${miembro.descripcion}"></td>
+                        <td>
+                            <a th:href="@{/miembro/editar/{id}(id=${miembro.id})}" class="btn btn-warning btn-sm">Editar</a>
+                            <a th:href="@{/miembro/eliminar/{id}(id=${miembro.id})}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Footer: se incluye el fragmento definido en fragments/footer.html -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="miembro : ${miembros}">
-            <td th:text="${miembro.id}"></td>
-            <td>
-                <a th:text="${miembro.nombre}"></a>
-                <a>|</a>
-                <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${miembro.id})}">Ver</a>
-            </td>
-            <td th:text="${miembro.tipo}"></td>
-            <td th:text="${miembro.descripcion}"></td>
-            <td>
-                <a th:href="@{/miembro/editar/{id}(id=${miembro.id})}">Editar</a>
-                <a>|</a>
-                <a th:href="@{/miembro/eliminar/{id}(id=${miembro.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
