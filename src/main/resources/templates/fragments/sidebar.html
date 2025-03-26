@@ -1,0 +1,19 @@
+<!-- templates/fragments/sidebar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/styles.css"> <!-- Asegúrate de tener estilos -->
+</head>
+<body>
+<div class="sidebar">
+  <h2>Menú</h2>
+  <ul>
+    <li><a th:href="@{/}">Inicio</a></li>
+    <li><a th:href="@{/evento}">Eventos</a></li>
+    <li><a th:href="@{/miembro}">Miembros</a></li>
+    <li><a th:href="@{/acompanante}">Acompañantes</a></li>
+    <li><a th:href="@{/asistencia}">Asistencias</a></li>
+    <li><a th:href="@{/reportes}">Reportes</a></li>
+  </ul>
+</div>
+</html>

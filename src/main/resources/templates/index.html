@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.A.M.A Medellín</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <header>
+        <h1>L.A.M.A Medellín</h1>
+        <h2>Gestión de Miembros - Eventos - Asistencias - Acompañantes</h2>
+    </header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Inicio</a></li>
+                <li><a th:href="@{/evento}">Eventos</a></li>
+                <li><a th:href="@{/miembro}">Miembros</a></li>
+                <li><a th:href="@{/acompanante}">Acompañantes</a></li>
+                <li><a th:href="@{/asistencia}">Asistencias</a></li>
+            </ul>
+        </nav>
+        <!-- Contenido principal -->
+        <main class="container">
+            <section>
+                <p>Seleccione una opción en el menú para gestionar la información.</p>
+            </section>
+        </main>
+    </div>
+    <footer>
+        <p>© 2025 Hackathon ITM - Todos los derechos reservados</p>
+    </footer>
+</div>
+</body>
+</html>

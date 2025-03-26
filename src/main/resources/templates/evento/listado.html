@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <h1>Listado de Eventos</h1>
+    <a th:href="@{/evento/nuevo}">Añadir Evento</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Descripcion</th>
+            <th>Organizador</th>
+            <th>Tipo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="evento : ${eventos}">
+            <td th:text="${evento.id}"></td>
+            <td th:text="${evento.fecha}"></td>
+            <td th:text="${evento.descripcion}"></td>
+            <td th:text="${evento.organizador.nombre}"></td>
+            <td th:text="${evento.tipo}"></td>
+            <td>
+                <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
+                <a>|</a>
+                <a th:href="@{/evento/editar/{id}(id=${evento.id})}">Editar</a>
+                <a>|</a>
+                <a th:href="@{/evento/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/evento}">Volver a Eventos</a>
+</div>
+</body>
+</html>

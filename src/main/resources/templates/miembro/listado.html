@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>L.A.M.A Medellin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
+<div class="content">
+    <h1>Listado de Miembros</h1>
+    <a th:href="@{/miembro/nuevo}">Añadir Miembro</a>
+    <a>|</a>
+    <a th:href="@{/asistencia}">Ver Asistencias</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="miembro : ${miembros}">
+            <td th:text="${miembro.id}"></td>
+            <td th:text="${miembro.nombre}"></td>
+            <td th:text="${miembro.tipo}"></td>
+            <td th:text="${miembro.descripcion}"></td>
+            <td>
+                <a th:href="@{/miembro/editar/{id}(id=${miembro.id})}">Editar</a>
+                <a>|</a>
+                <a th:href="@{/miembro/eliminar/{id}(id=${miembro.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/miembro}">Volver a Miembros</a>
+</div>
+</body>
+</html>
