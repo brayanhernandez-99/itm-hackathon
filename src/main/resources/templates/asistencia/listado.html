@@ -38,12 +38,12 @@
                         <td>
                             <span th:text="${asistencia.evento.descripcion}"></span>
                             <br>
-                            <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}" class="btn btn-link p-0">Ver</a>
+                            <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}" class="btn btn-link p-0">Ver Asistencias</a>
                         </td>
                         <td>
                             <span th:text="${asistencia.miembro.nombre}"></span>
                             <br>
-                            <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${asistencia.miembro.id})}" class="btn btn-link p-0">Ver</a>
+                            <a th:href="@{/asistencia/miembro/{miembroId}(miembroId=${asistencia.miembro.id})}" class="btn btn-link p-0">Ver Asistencias</a>
                         </td>
                         <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
                         <td th:text="${asistencia.kilometraje}"></td>

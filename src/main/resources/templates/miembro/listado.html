@@ -10,22 +10,16 @@
 </head>
 <body>
 <div class="d-flex">
-    <!-- Sidebar: se incluye el fragmento definido en fragments/sidebar.html -->
+    <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <!-- Contenido principal -->
     <div class="flex-grow-1">
         <div class="container my-4">
             <h1 class="mb-4">Listado de Miembros</h1>
-            <nav class="mb-3">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-success text-white" th:href="@{/miembro/nuevo}">Nuevo Miembro</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-info text-white ms-2" th:href="@{/asistencia}">Ver Asistencias</a>
-                    </li>
-                </ul>
+            <nav class="mb-3 d-flex gap-2">
+                <a class="btn btn-success text-white" th:href="@{/miembro/nuevo}">Nuevo Miembro</a>
+                <a class="btn btn-primary text-white" th:href="@{/asistencia}">Ver Asistencias</a>
             </nav>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -58,7 +52,7 @@
                 </table>
             </div>
         </div>
-        <!-- Footer: se incluye el fragmento definido en fragments/footer.html -->
+        <!-- Footer -->
         <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
 </div>
