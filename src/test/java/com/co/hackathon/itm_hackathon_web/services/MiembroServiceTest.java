@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class MiembroServiceTest {
@@ -35,20 +34,23 @@ class MiembroServiceTest {
     }
 
     @Test
-    void testObtenerMiembroPorId() {
-        when(miembroRepository.findById(1)).thenReturn(Optional.of(miembro));
+    void testObtenerMiembroPorId_Existente() {
+        when(miembroRepository.findByIdOrThrow(1)).thenReturn(miembro);
         Miembro resultado = miembroService.obtenerMiembroPorId(1);
         assertNotNull(resultado);
         assertEquals(miembro.getNombre(), resultado.getNombre());
-        verify(miembroRepository, times(1)).findById(1);
+        verify(miembroRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
     void testObtenerMiembroPorId_NoExistente() {
-        when(miembroRepository.findById(1)).thenReturn(Optional.empty());
-        Miembro resultado = miembroService.obtenerMiembroPorId(1);
-        assertNull(resultado);
-        verify(miembroRepository, times(1)).findById(1);
+        when(miembroRepository.findByIdOrThrow(1))
+                .thenThrow(new RuntimeException("Miembro no encontrado"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            miembroService.obtenerMiembroPorId(1);
+        });
+        assertEquals("Miembro no encontrado", exception.getMessage());
+        verify(miembroRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
@@ -72,8 +74,10 @@ class MiembroServiceTest {
 
     @Test
     void testEliminarMiembro() {
-        doNothing().when(miembroRepository).deleteById(1);
+        when(miembroRepository.findByIdOrThrow(1)).thenReturn(miembro);
+        doNothing().when(miembroRepository).delete(miembro);
         miembroService.eliminarMiembro(1);
-        verify(miembroRepository, times(1)).deleteById(1);
+        verify(miembroRepository, times(1)).findByIdOrThrow(1);
+        verify(miembroRepository, times(1)).delete(miembro);
     }
 }

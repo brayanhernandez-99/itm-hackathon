@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class AcompananteServiceTest {
@@ -35,20 +34,22 @@ class AcompananteServiceTest {
     }
 
     @Test
-    void testObtenerAcompanantePorId() {
-        when(acompananteRepository.findById(1)).thenReturn(Optional.of(acompanante));
+    void testObtenerAcompanantePorId_Existente() {
+        when(acompananteRepository.findByIdOrThrow(1)).thenReturn(acompanante);
         Acompanante resultado = acompananteService.obtenerAcompanantePorId(1);
         assertNotNull(resultado);
         assertEquals(acompanante.getNombre(), resultado.getNombre());
-        verify(acompananteRepository, times(1)).findById(1);
+        verify(acompananteRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
     void testObtenerAcompanantePorId_NoExistente() {
-        when(acompananteRepository.findById(1)).thenReturn(Optional.empty());
-        Acompanante resultado = acompananteService.obtenerAcompanantePorId(1);
-        assertNull(resultado);
-        verify(acompananteRepository, times(1)).findById(1);
+        when(acompananteRepository.findByIdOrThrow(1)).thenThrow(new RuntimeException("Acompañante no encontrado"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            acompananteService.obtenerAcompanantePorId(1);
+        });
+        assertEquals("Acompañante no encontrado", exception.getMessage());
+        verify(acompananteRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
@@ -73,11 +74,13 @@ class AcompananteServiceTest {
     @Test
     void testEliminarAcompanante_Existente() {
         when(acompananteRepository.existsById(1)).thenReturn(true);
-        doNothing().when(acompananteRepository).deleteById(1);
+        when(acompananteRepository.findByIdOrThrow(1)).thenReturn(acompanante);
+        doNothing().when(acompananteRepository).delete(acompanante);
         boolean eliminado = acompananteService.eliminarAcompanante(1);
         assertTrue(eliminado);
         verify(acompananteRepository, times(1)).existsById(1);
-        verify(acompananteRepository, times(1)).deleteById(1);
+        verify(acompananteRepository, times(1)).findByIdOrThrow(1);
+        verify(acompananteRepository, times(1)).delete(acompanante);
     }
 
     @Test
@@ -86,6 +89,6 @@ class AcompananteServiceTest {
         boolean eliminado = acompananteService.eliminarAcompanante(1);
         assertFalse(eliminado);
         verify(acompananteRepository, times(1)).existsById(1);
-        verify(acompananteRepository, never()).deleteById(anyInt());
+        verify(acompananteRepository, never()).delete(any(Acompanante.class));
     }
 }

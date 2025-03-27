@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class AsistenciaServiceTest {
@@ -34,20 +33,23 @@ class AsistenciaServiceTest {
     }
 
     @Test
-    void testObtenerAsistenciaPorId() {
-        when(asistenciaRepository.findById(1)).thenReturn(Optional.of(asistencia));
+    void testObtenerAsistenciaPorId_Existente() {
+        when(asistenciaRepository.findByIdOrThrow(1)).thenReturn(asistencia);
         Asistencia resultado = asistenciaService.obtenerAsistenciaPorId(1);
         assertNotNull(resultado);
         assertEquals(asistencia.getId(), resultado.getId());
-        verify(asistenciaRepository, times(1)).findById(1);
+        verify(asistenciaRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
     void testObtenerAsistenciaPorId_NoExistente() {
-        when(asistenciaRepository.findById(1)).thenReturn(Optional.empty());
-        Asistencia resultado = asistenciaService.obtenerAsistenciaPorId(1);
-        assertNull(resultado);
-        verify(asistenciaRepository, times(1)).findById(1);
+        when(asistenciaRepository.findByIdOrThrow(1))
+                .thenThrow(new RuntimeException("Asistencia no encontrada"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            asistenciaService.obtenerAsistenciaPorId(1);
+        });
+        assertEquals("Asistencia no encontrada", exception.getMessage());
+        verify(asistenciaRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
@@ -93,11 +95,13 @@ class AsistenciaServiceTest {
     @Test
     void testEliminarAsistencia_Existente() {
         when(asistenciaRepository.existsById(1)).thenReturn(true);
-        doNothing().when(asistenciaRepository).deleteById(1);
+        when(asistenciaRepository.findByIdOrThrow(1)).thenReturn(asistencia);
+        doNothing().when(asistenciaRepository).delete(asistencia);
         boolean eliminado = asistenciaService.eliminarAsistencia(1);
         assertTrue(eliminado);
         verify(asistenciaRepository, times(1)).existsById(1);
-        verify(asistenciaRepository, times(1)).deleteById(1);
+        verify(asistenciaRepository, times(1)).findByIdOrThrow(1);
+        verify(asistenciaRepository, times(1)).delete(asistencia);
     }
 
     @Test
@@ -106,6 +110,6 @@ class AsistenciaServiceTest {
         boolean eliminado = asistenciaService.eliminarAsistencia(1);
         assertFalse(eliminado);
         verify(asistenciaRepository, times(1)).existsById(1);
-        verify(asistenciaRepository, never()).deleteById(anyInt());
+        verify(asistenciaRepository, never()).delete(any(Asistencia.class));
     }
 }

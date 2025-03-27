@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class EventoServiceTest {
@@ -37,22 +36,23 @@ class EventoServiceTest {
     }
 
     @Test
-    void testObtenerEventoPorId() {
-        when(eventoRepository.findById(1)).thenReturn(Optional.of(evento));
+    void testObtenerEventoPorId_Existente() {
+        when(eventoRepository.findByIdOrThrow(1)).thenReturn(evento);
         Evento resultado = eventoService.obtenerEventoPorId(1);
         assertNotNull(resultado);
         assertEquals(evento.getDescripcion(), resultado.getDescripcion());
-        verify(eventoRepository, times(1)).findById(1);
+        verify(eventoRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
     void testObtenerEventoPorId_NoExistente() {
-        when(eventoRepository.findById(1)).thenReturn(Optional.empty());
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        when(eventoRepository.findByIdOrThrow(1))
+                .thenThrow(new RuntimeException("Evento no encontrado"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             eventoService.obtenerEventoPorId(1);
         });
         assertEquals("Evento no encontrado", exception.getMessage());
-        verify(eventoRepository, times(1)).findById(1);
+        verify(eventoRepository, times(1)).findByIdOrThrow(1);
     }
 
     @Test
@@ -77,21 +77,23 @@ class EventoServiceTest {
 
     @Test
     void testEliminarEvento_Existente() {
-        when(eventoRepository.existsById(1)).thenReturn(true);
-        doNothing().when(eventoRepository).deleteById(1);
+        when(eventoRepository.findByIdOrThrow(1)).thenReturn(evento);
+        doNothing().when(eventoRepository).delete(evento);
+        // El método eliminarEvento no retorna valor, solo se verifica que se realice la eliminación.
         eventoService.eliminarEvento(1);
-        verify(eventoRepository, times(1)).existsById(1);
-        verify(eventoRepository, times(1)).deleteById(1);
+        verify(eventoRepository, times(1)).findByIdOrThrow(1);
+        verify(eventoRepository, times(1)).delete(evento);
     }
 
     @Test
     void testEliminarEvento_NoExistente() {
-        when(eventoRepository.existsById(1)).thenReturn(false);
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        when(eventoRepository.findByIdOrThrow(1))
+                .thenThrow(new RuntimeException("Evento no encontrado"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             eventoService.eliminarEvento(1);
         });
         assertEquals("Evento no encontrado", exception.getMessage());
-        verify(eventoRepository, times(1)).existsById(1);
-        verify(eventoRepository, never()).deleteById(anyInt());
+        verify(eventoRepository, times(1)).findByIdOrThrow(1);
+        verify(eventoRepository, never()).delete(any(Evento.class));
     }
 }
