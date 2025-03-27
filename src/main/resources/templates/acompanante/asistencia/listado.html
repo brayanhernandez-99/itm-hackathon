@@ -2,59 +2,74 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Asistencias de Acompañantes - L.A.M.A Medellín</title>
+    <title>Listado de Asistencias - L.A.M.A Medellín</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="d-flex">
-    <!-- Sidebar: Se incluye el fragmento definido en fragments/sidebar.html -->
+    <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <!-- Contenido principal -->
     <div class="flex-grow-1">
         <div class="container my-4">
-            <h1 class="mb-4">Listado de Asistencias de Acompañantes</h1>
+            <h1 class="mb-4">
+                <i class="fas fa-list"></i> Listado de Asistencias de Acompañantes
+            </h1>
+
             <nav class="mb-3">
-                <a href="/acompanante/asistencia/nuevo" class="btn btn-success">Nueva Asistencia</a>
+                <a href="/acompanante/asistencia/nuevo" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Nueva Asistencia
+                </a>
             </nav>
+
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped text-center">
                     <thead class="table-dark">
                     <tr>
-                        <th>Id</th>
-                        <th>Evento</th>
-                        <th>Acompañante</th>
-                        <th>Asistencia en Moto</th>
-                        <th>Kilometraje</th>
-                        <th>Acciones</th>
+                        <th>#</th>
+                        <th><i class="fas fa-calendar-alt"></i> Evento</th>
+                        <th><i class="fas fa-user"></i> Acompañante</th>
+                        <th><i class="fas fa-motorcycle"></i> Asistencia</th>
+                        <th><i class="fas fa-ruler"></i> Kilometraje</th>
+                        <th><i class="fas fa-cogs"></i> Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="asistencia : ${asistenciaAcompanantes}">
                         <td th:text="${asistencia.id}"></td>
                         <td>
-                            <span th:text="${asistencia.evento.descripcion}"></span>
-                            <br>
+                            <span th:text="${asistencia.evento.descripcion}"></span><br>
                             <a th:if="${asistencia.evento != null}"
                                th:href="@{/acompanante/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}"
-                               class="btn btn-link p-0">Ver Asistencias</a>
+                               class="btn btn-link p-0">
+                                <i class="fas fa-search"></i> Ver Asistencias
+                            </a>
                         </td>
                         <td>
-                            <span th:text="${asistencia.acompanante.nombre}"></span>
-                            <br>
+                            <span th:text="${asistencia.acompanante.nombre}"></span><br>
                             <a th:href="@{/acompanante/asistencia/{acompananteId}(acompananteId=${asistencia.acompanante.id})}"
-                               class="btn btn-link p-0">Ver Asistencias</a>
+                               class="btn btn-link p-0">
+                                <i class="fas fa-search"></i> Ver Asistencias
+                            </a>
                         </td>
-                        <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
-                        <td th:text="${asistencia.kilometraje}"></td>
                         <td>
+                            <i class="fas" th:classappend="${asistencia.asistencia_moto ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}"></i>
+                        </td>
+                        <td th:text="${asistencia.kilometraje}"></td>
+                        <td class="d-flex justify-content-center gap-2">
                             <a th:href="@{/acompanante/asistencia/editar/{id}(id=${asistencia.id})}"
-                               class="btn btn-warning btn-sm">Editar</a>
-                            <a th:href="@{/acompanante/asistencia/eliminar/{id}(id=${asistencia.id})}"
-                               class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+                               class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm btn-eliminar"
+                                    th:data-id="${asistencia.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -62,12 +77,34 @@
             </div>
         </div>
 
-        <!-- Footer: Se incluye el fragmento definido en fragments/footer.html (opcional) -->
+        <!-- Footer -->
         <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script para eliminar con SweetAlert2 -->
+<script>
+    document.querySelectorAll('.btn-eliminar').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/acompanante/asistencia/eliminar/${id}`;
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
