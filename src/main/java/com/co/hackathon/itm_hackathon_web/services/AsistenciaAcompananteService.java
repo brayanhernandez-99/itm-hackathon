@@ -32,6 +32,10 @@ public class AsistenciaAcompananteService {
         return asistenciaAcompananteRepository.findByAcompananteId(acompananteId);
     }
 
+    public List<AsistenciaAcompanante> obtenerAsistenciasPorEvento(int eventoId) {
+        return asistenciaAcompananteRepository.findByEventoId(eventoId);
+    }
+
     public AsistenciaAcompanante obtenerAsistenciaPorId(int id) {
         return asistenciaAcompananteRepository.findByIdOrThrow(id);
     }

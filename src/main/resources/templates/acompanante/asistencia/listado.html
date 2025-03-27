@@ -38,16 +38,23 @@
                         <td>
                             <span th:text="${asistencia.evento.descripcion}"></span>
                             <br>
-                            <a th:href="@{/acompanante/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}" class="btn btn-link p-0">Ver</a>
+                            <a th:if="${asistencia.evento != null}"
+                               th:href="@{/acompanante/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}"
+                               class="btn btn-link p-0">Ver Asistencias</a>
                         </td>
                         <td>
                             <span th:text="${asistencia.acompanante.nombre}"></span>
+                            <br>
+                            <a th:href="@{/acompanante/asistencia/{acompananteId}(acompananteId=${asistencia.acompanante.id})}"
+                               class="btn btn-link p-0">Ver Asistencias</a>
                         </td>
                         <td th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></td>
                         <td th:text="${asistencia.kilometraje}"></td>
                         <td>
-                            <a th:href="@{/acompanante/asistencia/editar/{id}(id=${asistencia.id})}" class="btn btn-warning btn-sm">Editar</a>
-                            <a th:href="@{/acompanante/asistencia/eliminar/{id}(id=${asistencia.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
+                            <a th:href="@{/acompanante/asistencia/editar/{id}(id=${asistencia.id})}"
+                               class="btn btn-warning btn-sm">Editar</a>
+                            <a th:href="@{/acompanante/asistencia/eliminar/{id}(id=${asistencia.id})}"
+                               class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
                         </td>
                     </tr>
                     </tbody>

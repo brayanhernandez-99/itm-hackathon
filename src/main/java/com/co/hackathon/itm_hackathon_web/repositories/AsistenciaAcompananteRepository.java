@@ -19,6 +19,7 @@ public interface AsistenciaAcompananteRepository extends JpaRepository<Asistenci
      * @return Lista de asistencias.
      */
     List<AsistenciaAcompanante> findByAcompananteId(int acompananteId);
+    List<AsistenciaAcompanante> findByEventoId(int eventoId);
 
     /**
      * Busca una asistencia de acompañante por su ID o lanza una excepción si no se encuentra.

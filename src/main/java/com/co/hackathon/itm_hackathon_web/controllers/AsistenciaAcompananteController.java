@@ -100,6 +100,13 @@ public class AsistenciaAcompananteController {
         return "redirect:/acompanante/asistencia";
     }
 
+    @GetMapping("/evento/{eventoId}")
+    public String obtenerAsistenciasPorEvento(@PathVariable int eventoId, Model model) {
+        List<AsistenciaAcompanante> asistencias = asistenciaAcompananteService.obtenerAsistenciasPorEvento(eventoId);
+        model.addAttribute("asistenciaAcompanantes", asistencias);
+        return "acompanante/asistencia/listado";
+    }
+
     @GetMapping("/reporte")
     public String reporteAistenciaAcompanantes(Model model) {
         List<AsistenciaAcompanante> asistenciaAcompanantes = asistenciaAcompananteService.obtenerTodasLasAsistencias();
