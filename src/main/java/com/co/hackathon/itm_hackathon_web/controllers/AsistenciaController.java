@@ -105,7 +105,7 @@ public class AsistenciaController {
         return "asistencia/formulario";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarAsistencia(@PathVariable int id, Model model) {
         if (!asistenciaService.eliminarAsistencia(id)) {
             model.addAttribute("error", "No se pudo eliminar la asistencia");

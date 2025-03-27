@@ -64,7 +64,7 @@ public class MiembroController {
         return "miembro/formulario";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarMiembro(@PathVariable int id, Model model) {
         try {
             miembroService.eliminarMiembro(id);

@@ -60,7 +60,7 @@ public class AcompananteController {
         return "redirect:/acompanante";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarAcompanante(@PathVariable int id, Model model) {
         boolean eliminado = acompananteService.eliminarAcompanante(id);
         if (!eliminado) {

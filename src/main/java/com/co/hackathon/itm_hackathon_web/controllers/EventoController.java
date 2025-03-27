@@ -74,7 +74,7 @@ public class EventoController {
         return "evento/formulario";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarEvento(@PathVariable int id, Model model) {
         try {
             eventoService.eliminarEvento(id);

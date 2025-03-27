@@ -91,20 +91,20 @@ public class AsistenciaAcompananteController {
         return "acompanante/asistencia/listado";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @GetMapping("/evento/{eventoId}")
+    public String obtenerAsistenciasPorEvento(@PathVariable int eventoId, Model model) {
+        List<AsistenciaAcompanante> asistencias = asistenciaAcompananteService.obtenerAsistenciasPorEvento(eventoId);
+        model.addAttribute("asistenciaAcompanantes", asistencias);
+        return "acompanante/asistencia/listado";
+    }
+
+    @PostMapping("/eliminar/{id}")
     public String eliminarAsistenciaAcompanante(@PathVariable int id, Model model) {
         boolean eliminada = asistenciaAcompananteService.eliminarAsistenciaAcompanante(id);
         if (!eliminada) {
             model.addAttribute("error", "No se pudo eliminar la asistencia");
         }
         return "redirect:/acompanante/asistencia";
-    }
-
-    @GetMapping("/evento/{eventoId}")
-    public String obtenerAsistenciasPorEvento(@PathVariable int eventoId, Model model) {
-        List<AsistenciaAcompanante> asistencias = asistenciaAcompananteService.obtenerAsistenciasPorEvento(eventoId);
-        model.addAttribute("asistenciaAcompanantes", asistencias);
-        return "acompanante/asistencia/listado";
     }
 
     @GetMapping("/reporte")
