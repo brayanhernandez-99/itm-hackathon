@@ -27,6 +27,5 @@ public class Miembro {
     private String descripcion;
 
     @OneToMany(mappedBy = "organizador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Evento> eventos_organizados;
-
+    private List<Evento> eventosOrganizados;
 }
