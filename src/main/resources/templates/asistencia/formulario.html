@@ -1,35 +1,105 @@
-<!-- Formulario para registrar asistencia -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>L.A.M.A Medellin</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title th:text="${asistencia.id == null ? 'Nueva Asistencia - L.A.M.A Medellín' : 'Editar Asistencia - L.A.M.A Medellín'}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1>Registrar Asistencia</h1>
-  <form th:action="@{/asistencia}" th:object="${asistencia}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <label for="evento">Evento:</label>
-        <select id="evento" th:field="*{evento.id}">
-            <option th:each="evento : ${eventos}" th:value="${evento.id}" th:text="${evento.descripcion}"></option>
-        </select>
-        <br/>
-        <label for="miembro">Miembro:</label>
-        <select id="miembro" th:field="*{miembro.id}">
-            <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
-        </select>
-        <br/>
-        <label for="asistencia_moto">Asistio en Moto:</label>
-        <input type="checkbox" id="asistencia_moto" th:field="*{asistencia_moto}"/>
-        <br/>
-        <label for="kilometraje">Kilometraje:</label>
-        <input type="number" id="kilometraje" th:field="*{kilometraje}" required/>
-        <br/>
-        <button type="submit">Guardar</button>
-    </form>
-    <a th:href="@{/asistencia}">Volver a Asistencias</a>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4">
+                <i class="fas fa-calendar-check"></i>
+                <span th:text="${asistencia.id == null ? 'Nueva Asistencia' : 'Editar Asistencia'}"></span>
+            </h1>
+
+            <form th:action="@{/asistencia}" th:object="${asistencia}" method="post" class="d-inline" id="asistenciaForm">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="evento" class="form-label">
+                        <i class="fas fa-calendar-alt"></i> Evento:
+                    </label>
+                    <select id="evento" th:field="*{evento.id}" class="form-select form-control-lg shadow-sm" required>
+                        <option value="" disabled selected>Seleccione un evento</option>
+                        <option th:each="evento : ${eventos}" th:value="${evento.id}" th:text="${evento.descripcion}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="miembro" class="form-label">
+                        <i class="fas fa-user"></i> Miembro:
+                    </label>
+                    <select id="miembro" th:field="*{miembro.id}" class="form-select form-control-lg shadow-sm" required>
+                        <option value="" disabled selected>Seleccione un miembro</option>
+                        <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="asistencia_moto" th:field="*{asistencia_moto}" class="form-check-input">
+                    <label for="asistencia_moto" class="form-check-label">
+                        <i class="fas fa-motorcycle"></i> Asistió en Moto
+                    </label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="kilometraje" class="form-label">
+                        <i class="fas fa-ruler"></i> Kilometraje:
+                    </label>
+                    <input type="number" id="kilometraje" th:field="*{kilometraje}" class="form-control form-control-lg shadow-sm" min="0" required>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary btn-lg" id="btnGuardar">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <a th:href="@{/asistencia}" class="btn btn-secondary btn-lg ms-2">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SweetAlert2 para confirmar envío -->
+<script>
+    document.getElementById('btnGuardar').addEventListener('click', function () {
+        const form = document.getElementById('asistenciaForm');
+        if (form.checkValidity()) {
+            Swal.fire({
+                title: '¿Deseas guardar esta asistencia?',
+                text: "Asegúrate de que todos los datos sean correctos.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        } else {
+            form.reportValidity();
+        }
+    });
+</script>
 </body>
 </html>

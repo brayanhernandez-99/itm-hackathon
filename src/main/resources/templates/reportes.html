@@ -2,36 +2,102 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L.A.M.A Medellín</title>
+    <title>Reportes - L.A.M.A Medellín</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-<div th:replace="fragments/sidebar :: .sidebar"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <header>
-        <h1>L.A.M.A Medellín</h1>
-        <h2>Gestión de Reportes</h2>
-    </header>
-    <div class="container">
-        <nav>
-            <ul>
-                <li><a th:href="@{/miembro/reporte}" onclick="return confirm('¿Generar reporte Miembros?');">Reporte Miembros</a></li>
-                <li><a th:href="@{/evento/reporte}" onclick="return confirm('¿Generar reporte Eventos?');">Reporte Eventos</a></li>
-                <li><a th:href="@{/asistencia/reporte}" onclick="return confirm('¿Generar reporte Asistencias?');">Reporte Asistencias</a></li>
-                <li><a th:href="@{/acompanante/reporte}" onclick="return confirm('¿Generar reporte Acompañantes?');">Reporte Acompañantes</a></li>
-            </ul>
-        </nav>
-        <!-- Contenido principal -->
-        <main class="container">
-            <section>
-                <p>Seleccione una opción en el menú para gestionar los reportes.</p>
-            </section>
-        </main>
+<div class="d-flex">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4 text-center">
+                <i class="fas fa-chart-bar"></i> REPORTES
+            </h1>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card report-card border-primary">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-alt fa-3x text-primary"></i>
+                            <h5 class="card-title mt-2">Eventos</h5>
+                            <button class="btn btn-primary" onclick="confirmReport('/evento/reporte')">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card report-card border-secondary">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-3x text-secondary"></i>
+                            <h5 class="card-title mt-2">Miembros</h5>
+                            <button class="btn btn-secondary" onclick="confirmReport('/miembro/reporte')">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card report-card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-check-circle fa-3x text-success"></i>
+                            <h5 class="card-title mt-2">Asistencias</h5>
+                            <button class="btn btn-success" onclick="confirmReport('/asistencia/reporte')">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card report-card border-warning">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-friends fa-3x text-warning"></i>
+                            <h5 class="card-title mt-2">Acompañantes</h5>
+                            <button class="btn btn-warning" onclick="confirmReport('/acompanante/reporte')">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card report-card border-danger">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-check fa-3x text-danger"></i>
+                            <h5 class="card-title mt-2">Asistencia Acompañantes</h5>
+                            <button class="btn btn-danger" onclick="confirmReport('/acompanante/asistencia/reporte')">Generar Reporte</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
-    <footer>
-        <p>© 2025 Hackathon ITM - Todos los derechos reservados</p>
-    </footer>
 </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas generar este reporte?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a id="confirmLink" class="btn btn-primary">Sí, Generar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function confirmReport(url) {
+        document.getElementById('confirmLink').setAttribute('href', url);
+        var modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+</script>
 </body>
 </html>

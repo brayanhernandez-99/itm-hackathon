@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Eventos")
@@ -29,5 +30,11 @@ public class Evento {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private TipoEvento tipo;  // Enum de tipo de evento
+    private TipoEvento tipo;
+    
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Asistencia> asistencias;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AsistenciaAcompanante> asistenciasAcompanantes;
 }

@@ -5,58 +5,35 @@ import com.co.hackathon.itm_hackathon_web.repositories.MiembroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Servicio encargado de la gestión de los miembros en el sistema.
+ * Servicio para la gestión de los miembros.
  */
 @Service
 public class MiembroService {
 
     private final MiembroRepository miembroRepository;
 
-    /**
-     * Constructor que inyecta el repositorio de miembros.
-     *
-     * @param miembroRepository Repositorio para la gestión de miembros.
-     */
     public MiembroService(MiembroRepository miembroRepository) {
         this.miembroRepository = miembroRepository;
     }
 
-    /**
-     * Guarda un nuevo miembro en la base de datos.
-     *
-     * @param miembro Objeto Miembro a guardar.
-     */
     public void guardarMiembro(Miembro miembro) {
+        Objects.requireNonNull(miembro, "El miembro no puede ser nulo");
         miembroRepository.save(miembro);
     }
 
-    /**
-     * Obtiene un miembro por su ID.
-     *
-     * @param id ID del miembro.
-     * @return Miembro correspondiente al ID proporcionado, o null si no se encuentra.
-     */
     public Miembro obtenerMiembroPorId(int id) {
-        return miembroRepository.findById(id).orElse(null);
+        return miembroRepository.findByIdOrThrow(id);
     }
 
-    /**
-     * Obtiene todos los miembros registrados en la base de datos.
-     *
-     * @return Lista de todos los miembros.
-     */
     public List<Miembro> obtenerTodosLosMiembros() {
         return miembroRepository.findAll();
     }
 
-    /**
-     * Elimina un miembro de la base de datos por su ID.
-     *
-     * @param id ID del miembro a eliminar.
-     */
     public void eliminarMiembro(int id) {
-        miembroRepository.deleteById(id);
+        Miembro miembro = miembroRepository.findByIdOrThrow(id);
+        miembroRepository.delete(miembro);
     }
 }

@@ -1,24 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>L.A.M.A Medellin</title>
+    <title th:text="${acompanante.id == null ? 'Nuevo Acompañante - L.A.M.A Medellín' : 'Editar Acompañante - L.A.M.A Medellín'}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1 th:text="${acompanante.id == null ? 'Nuevo Acompañante' : 'Editar Acompañante'}"></h1>
-    <form th:action="@{/acompanante}" th:object="${acompanante}" method="post">
-        <input type="hidden" th:if="${acompanante.id != null}" name="id" th:value="${acompanante.id}">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required>
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" th:field="*{descripcion}">
-        <button type="submit">Guardar</button>
-    </form>
-    <br>
-    <a href="/acompanante">Volver al Acompañantes</a>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-5">
+            <h1 class="mb-4">
+                <i class="fas fa-user-plus"></i>
+                <span th:text="${acompanante.id == null ? 'Nuevo Acompañante' : 'Editar Acompañante'}"></span>
+            </h1>
+
+            <form th:action="@{/acompanante}" th:object="${acompanante}" method="post" class="d-inline" id="acompananteForm">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">
+                        <i class="fas fa-user"></i> Nombre:
+                    </label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control form-control-lg shadow-sm" placeholder="Ej: Juan Pérez" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">
+                        <i class="fas fa-file-alt"></i> Descripción:
+                    </label>
+                    <textarea id="descripcion" th:field="*{descripcion}" rows="4" class="form-control form-control-lg shadow-sm" placeholder="Ej: Amigo de un miembro, familiar, etc." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary btn-lg" id="btnGuardar">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <a th:href="@{/acompanante}" class="btn btn-secondary btn-lg ms-2">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SweetAlert2 para confirmar envío -->
+<script>
+    document.getElementById('btnGuardar').addEventListener('click', function () {
+        const form = document.getElementById('acompananteForm');
+        if (form.checkValidity()) {
+            Swal.fire({
+                title: '¿Deseas guardar este acompañante?',
+                text: "Asegúrate de que todos los datos sean correctos.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        } else {
+            form.reportValidity();
+        }
+    });
+</script>
 </body>
 </html>

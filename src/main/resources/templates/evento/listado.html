@@ -1,43 +1,126 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>L.A.M.A Medellin</title>
+    <meta charset="UTF-8">
+    <title>Listado de Eventos - L.A.M.A Medellín</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<div th:replace="~{fragments/sidebar :: .sidebar}"></div> <!-- Incluir el Sidebar -->
-<div class="content">
-    <h1>Listado de Eventos</h1>
-    <a th:href="@{/evento/nuevo}">Añadir Evento</a>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Fecha</th>
-            <th>Descripcion</th>
-            <th>Organizador</th>
-            <th>Tipo</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="evento : ${eventos}">
-            <td th:text="${evento.id}"></td>
-            <td th:text="${evento.fecha}"></td>
-            <td th:text="${evento.descripcion}"></td>
-            <td th:text="${evento.organizador.nombre}"></td>
-            <td th:text="${evento.tipo}"></td>
-            <td>
-                <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}">Ver</a>
-                <a>|</a>
-                <a th:href="@{/evento/editar/{id}(id=${evento.id})}">Editar</a>
-                <a>|</a>
-                <a th:href="@{/evento/eliminar/{id}(id=${evento.id})}" onclick="return confirm('¿Estás seguro?');">Eliminar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/evento}">Volver a Eventos</a>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1">
+        <div class="container my-4">
+            <h1 class="mb-4">
+                <i class="fas fa-list-ul"></i> Listado de Eventos
+            </h1>
+
+            <nav class="mb-3 d-flex gap-2">
+                <a class="btn btn-success text-white" th:href="@{/evento/nuevo}">
+                    <i class="fas fa-plus"></i> Nuevo Evento
+                </a>
+                <input type="text" id="searchInput" class="form-control w-auto" placeholder="Buscar..." onkeyup="filterTable()">
+            </nav>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="eventosTable">
+                    <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-hashtag"></i> ID</th>
+                        <th><i class="fas fa-calendar-alt"></i> Fecha</th>
+                        <th><i class="fas fa-file-alt"></i> Evento</th>
+                        <th><i class="fas fa-user"></i> Organizador</th>
+                        <th><i class="fas fa-list-alt"></i> Tipo</th>
+                        <th><i class="fas fa-cogs"></i> Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="evento : ${eventos}">
+                        <td th:text="${evento.id}"></td>
+                        <td th:text="${#temporals.format(evento.fecha, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <span th:text="${evento.descripcion}"></span>
+                            <br>
+                            <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${evento.id})}"
+                               class="btn btn-link p-0">
+                                <i class="fas fa-calendar-check"></i> Ver Asistencias
+                            </a>
+                        </td>
+                        <td th:text="${evento.organizador.nombre}"></td>
+                        <td th:text="${evento.tipo}"></td>
+                        <td class="d-flex gap-2">
+                            <a th:href="@{/evento/editar/{id}(id=${evento.id})}"
+                               class="btn btn-warning btn-sm">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(this)"
+                                    th:data-url="@{/evento/eliminar/{id}(id=${evento.id})}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SweetAlert2 para eliminar -->
+<script>
+    function confirmDelete(button) {
+        const url = button.getAttribute("data-url");
+        Swal.fire({
+            title: '¿Eliminar evento?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire('Eliminado', 'El evento ha sido eliminado.', 'success')
+                        .then(() => location.reload());
+                    } else {
+                        Swal.fire('Error', 'No se pudo eliminar el evento.', 'error');
+                    }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+                });
+            }
+        });
+    }
+
+    // Filtro de búsqueda en la tabla
+    function filterTable() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("#eventosTable tbody tr");
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+</script>
+
 </body>
 </html>

@@ -10,8 +10,10 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,9 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.List;
 
-/**
- * Controlador para manejar las operaciones relacionadas con la asistencia.
- */
 @Controller
 @RequestMapping("/asistencia")
 public class AsistenciaController {
@@ -30,74 +29,49 @@ public class AsistenciaController {
     private final EventoService eventoService;
     private final MiembroService miembroService;
 
-    /**
-     * Constructor que inyecta los servicios necesarios.
-     *
-     * @param asistenciaService Servicio de gestión de asistencias.
-     * @param eventoService Servicio de gestión de eventos.
-     * @param miembroService Servicio de gestión de miembros.
-     */
     public AsistenciaController(AsistenciaService asistenciaService, EventoService eventoService, MiembroService miembroService) {
         this.asistenciaService = asistenciaService;
         this.eventoService = eventoService;
         this.miembroService = miembroService;
     }
 
-    /**
-     * Método para obtener y mostrar todas las asistencias registradas.
-     *
-     * @param model Modelo de datos para la vista.
-     * @return Vista con la lista de asistencias.
-     */
     @GetMapping
     public String obtenerTodasLasAsistencias(Model model) {
         List<Asistencia> asistencias = asistenciaService.obtenerTodasLasAsistencias();
         if (asistencias == null || asistencias.isEmpty()) {
-            throw new RuntimeException("No hay asistencias registradas");
+            model.addAttribute("error", "No hay asistencias registradas");
+            return "asistencia/listado";
         }
         model.addAttribute("asistencias", asistencias);
         return "asistencia/listado";
     }
 
-    /**
-     * Método para obtener asistencias por evento.
-     *
-     * @param eventoId Identificador del evento.
-     * @param model Modelo de datos para la vista.
-     * @param request Petición HTTP.
-     * @return Vista con la lista de asistencias del evento.
-     */
     @GetMapping("/evento/{eventoId}")
     public String listarAsistenciasPorEvento(@PathVariable int eventoId, Model model, HttpServletRequest request) {
         Evento evento = eventoService.obtenerEventoPorId(eventoId);
+        if (evento == null) {
+            model.addAttribute("error", "Evento no encontrado");
+            return "asistencia/listado";
+        }
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorEvento(eventoId);
         model.addAttribute("evento", evento);
         model.addAttribute("asistencias", asistencias);
         return "asistencia/listado";
     }
 
-    /**
-     * Método para obtener asistencias por miembro.
-     *
-     * @param miembroId Identificador del miembro.
-     * @param model Modelo de datos para la vista.
-     * @return Vista con la lista de asistencias del miembro.
-     */
     @GetMapping("/miembro/{miembroId}")
     public String listarAsistenciasPorMiembro(@PathVariable int miembroId, Model model) {
         Miembro miembro = miembroService.obtenerMiembroPorId(miembroId);
+        if (miembro == null) {
+            model.addAttribute("error", "Miembro no encontrado");
+            return "asistencia/listado";
+        }
         List<Asistencia> asistencias = asistenciaService.obtenerAsistenciasPorMiembro(miembroId);
         model.addAttribute("miembro", miembro);
         model.addAttribute("asistencias", asistencias);
         return "asistencia/listado";
     }
 
-    /**
-     * Método para mostrar el formulario de registro de una nueva asistencia.
-     *
-     * @param model Modelo de datos para la vista.
-     * @return Vista del formulario de creación de asistencia.
-     */
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("asistencia", new Asistencia());
@@ -106,44 +80,35 @@ public class AsistenciaController {
         return "asistencia/formulario";
     }
 
-    /**
-     * Método para guardar una nueva asistencia desde el formulario.
-     *
-     * @param asistencia Objeto asistencia recibido desde el formulario.
-     * @return Redirección a la lista de asistencias.
-     */
     @PostMapping
-    public String guardarAsistencia(@ModelAttribute Asistencia asistencia) {
+    public String guardarAsistencia(@Valid @ModelAttribute Asistencia asistencia, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
+            model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "asistencia/formulario";
+        }
         asistenciaService.guardarAsistencia(asistencia);
         return "redirect:/asistencia";
     }
 
-    /**
-     * Método para mostrar el formulario de edición de una asistencia.
-     *
-     * @param id Identificador de la asistencia a editar.
-     * @param model Modelo de datos para la vista.
-     * @return Vista del formulario con los datos de la asistencia.
-     */
     @GetMapping("/editar/{id}")
     public String editarAsistencia(@PathVariable int id, Model model) {
         Asistencia asistencia = asistenciaService.obtenerAsistenciaPorId(id);
+        if (asistencia == null) {
+            model.addAttribute("error", "Asistencia no encontrada");
+            return "redirect:/asistencia";
+        }
         model.addAttribute("asistencia", asistencia);
         model.addAttribute("eventos", eventoService.obtenerTodosLosEventos());
         model.addAttribute("miembros", miembroService.obtenerTodosLosMiembros());
         return "asistencia/formulario";
     }
 
-    /**
-     * Método para eliminar una asistencia con validación.
-     *
-     * @param id Identificador de la asistencia a eliminar.
-     * @return Redirección a la lista de asistencias.
-     */
-    @GetMapping("/eliminar/{id}")
-    public String eliminarAsistencia(@PathVariable int id) {
+    @PostMapping("/eliminar/{id}")
+    public String eliminarAsistencia(@PathVariable int id, Model model) {
         if (!asistenciaService.eliminarAsistencia(id)) {
-            throw new RuntimeException("No se pudo eliminar asistencia");
+            model.addAttribute("error", "No se pudo eliminar la asistencia");
         }
         return "redirect:/asistencia";
     }
@@ -185,5 +150,11 @@ public class AsistenciaController {
             model.addAttribute("Error", "Error al generar PDF: " + e.getMessage());
         }
         return "asistencia/listado";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "error";
     }
 }
