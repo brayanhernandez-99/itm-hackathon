@@ -22,7 +22,7 @@
                 <span th:text="${evento.id == null ? 'Nuevo Evento' : 'Editar Evento'}"></span>
             </h1>
 
-            <form th:action="@{/evento}" th:object="${evento}" method="post" id="eventoForm">
+            <form th:action="@{/evento}" th:object="${evento}" method="post" class="d-inline" id="eventoForm">
                 <input type="hidden" th:field="*{id}"/>
 
                 <div class="mb-3">
@@ -36,8 +36,8 @@
                     <label for="descripcion" class="form-label">
                         <i class="fas fa-file-alt"></i> Descripción:
                     </label>
-                    <textarea id="descripcion" th:field="*{descripcion}" rows="4"
-                              class="form-control form-control-lg shadow-sm" required></textarea>
+                    <textarea id="descripcion" th:field="*{descripcion}" rows="4" placeholder="Ingrese una breve descripción"
+                              maxlength="200" class="form-control form-control-lg shadow-sm"  required></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -45,6 +45,7 @@
                         <i class="fas fa-user"></i> Organizador:
                     </label>
                     <select id="organizador" th:field="*{organizador.id}" class="form-select form-control-lg shadow-sm" required>
+                        <option value="" disabled selected>Seleccione un organizador</option>
                         <option th:each="miembro : ${miembros}" th:value="${miembro.id}" th:text="${miembro.nombre}"></option>
                     </select>
                 </div>
@@ -54,6 +55,7 @@
                         <i class="fas fa-list-alt"></i> Tipo de Evento:
                     </label>
                     <select id="tipo" th:field="*{tipo}" class="form-select form-control-lg shadow-sm" required>
+                        <option value="" disabled selected>Seleccione un tipo</option>
                         <option th:each="tipo : ${T(com.co.hackathon.itm_hackathon_web.models.TipoEvento).values()}"
                                 th:value="${tipo}" th:text="${tipo}"></option>
                     </select>
@@ -81,19 +83,24 @@
 <!-- SweetAlert2 para confirmar envío -->
 <script>
     document.getElementById('btnGuardar').addEventListener('click', function () {
-        Swal.fire({
-            title: '¿Deseas guardar este evento?',
-            text: "Asegúrate de que todos los datos sean correctos.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, guardar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('eventoForm').submit();
-            }
-        });
+        const form = document.getElementById('eventoForm');
+        if (form.checkValidity()) {
+            Swal.fire({
+                title: '¿Deseas guardar este evento?',
+                text: "Asegúrate de que todos los datos sean correctos.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        } else {
+            form.reportValidity();
+        }
     });
 </script>
 </body>

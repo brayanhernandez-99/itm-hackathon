@@ -21,20 +21,21 @@
                 <i class="fas fa-list"></i> Listado de Asistencias
             </h1>
 
-            <nav class="mb-3">
-                <a th:href="@{/asistencia/nuevo}" class="btn btn-success btn-lg">
+            <nav class="mb-3 d-flex gap-2">
+                <a class="btn btn-success text-white" th:href="@{/asistencia/nuevo}">
                     <i class="fas fa-plus"></i> Nueva Asistencia
                 </a>
+                <input type="text" id="searchInput" class="form-control w-auto" placeholder="Buscar..." onkeyup="filterTable()">
             </nav>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover">
+                <table class="table table-bordered table-striped" id="asistenciasTable">
                     <thead class="table-dark">
                     <tr>
-                        <th>#</th>
-                        <th><i class="fas fa-calendar-alt"></i> Evento</th>
+                        <th><i class="fas fa-hashtag"></i> ID</th>
+                        <th><i class="fas fa-file-alt"></i> Evento</th>
                         <th><i class="fas fa-user"></i> Miembro</th>
-                        <th><i class="fas fa-motorcycle"></i> Asistió en Moto</th>
+                        <th><i class="fas fa-motorcycle"></i> Asistencia</th>
                         <th><i class="fas fa-ruler"></i> Kilometraje</th>
                         <th><i class="fas fa-cogs"></i> Acciones</th>
                     </tr>
@@ -46,7 +47,7 @@
                             <b th:text="${asistencia.evento.descripcion}"></b><br>
                             <small class="text-muted" th:text="'Fecha: ' + ${#temporals.format(asistencia.evento.fecha, 'dd/MM/yyyy')}"></small>
                             <a th:href="@{/asistencia/evento/{eventoId}(eventoId=${asistencia.evento.id})}" class="btn btn-link p-0">
-                                <i class="fas fa-calendar-alt"></i> Ver Asistencias
+                                <i class="fas fa-calendar-check"></i> Ver Asistencias
                             </a>
                         </td>
                         <td>
@@ -56,16 +57,16 @@
                             </a>
                         </td>
                         <td>
-                            <span th:classappend="${asistencia.asistencia_moto} ? 'badge bg-success' : 'badge bg-danger'"
-                                  th:text="${asistencia.asistencia_moto ? 'Sí' : 'No'}"></span>
+                            <i class="fas" th:classappend="${asistencia.asistencia_moto ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}"></i>
                         </td>
                         <td th:text="${asistencia.kilometraje} + ' km'"></td>
-                        <td>
+                        <td class="d-flex gap-2">
                             <a th:href="@{/asistencia/editar/{id}(id=${asistencia.id})}" class="btn btn-warning btn-sm">
-                                <i class="fas fa-pencil-alt"></i> Editar
+                                <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <button class="btn btn-danger btn-sm btnEliminar" th:data-id="${asistencia.id}">
-                                <i class="fas fa-trash"></i> Eliminar
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(this)"
+                                    th:data-url="@{/asistencia/eliminar/{id}(id=${asistencia.id})}">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>
@@ -79,29 +80,51 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- SweetAlert2 para eliminación -->
+<!-- SweetAlert2 para eliminar -->
 <script>
-    document.querySelectorAll('.btnEliminar').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            Swal.fire({
-                title: '¿Eliminar asistencia?',
-                text: "Esta acción no se puede deshacer.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = `/asistencia/eliminar/${id}`;
-                }
-            });
+    function confirmDelete(button) {
+        const url = button.getAttribute("data-url");
+        Swal.fire({
+            title: '¿Eliminar asistencia?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire('Eliminado', 'La asistencia ha sido eliminada.', 'success')
+                        .then(() => location.reload());
+                    } else {
+                        Swal.fire('Error', 'No se pudo eliminar la asistencia.', 'error');
+                    }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+                });
+            }
         });
-    });
+    }
+
+    // Filtro de búsqueda en la tabla
+    function filterTable() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("#asistenciasTable tbody tr");
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+        });
+    }
 </script>
 
 </body>
